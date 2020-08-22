@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/LENOVO/Desktop/transporter-app/lib/DialogScreens/DialogFailed.dart';
-import 'file:///C:/Users/LENOVO/Desktop/transporter-app/lib/DialogScreens/DialogProcessing.dart';
-import 'file:///C:/Users/LENOVO/Desktop/transporter-app/lib/DialogScreens/DialogSuccess.dart';
-import 'package:transportationapp/HttpHandler.dart';
-import 'package:transportationapp/Models/User.dart';
-import 'package:transportationapp/MyConstants.dart';
-import 'package:transportationapp/PostMethodResult.dart';
+import 'package:driverapp/HttpHandler.dart';
+import 'package:driverapp/Models/User.dart';
+import 'package:driverapp/MyConstants.dart';
+import 'package:driverapp/PostMethodResult.dart';
+import 'package:driverapp/DialogScreens/DialogFailed.dart';
+import 'package:driverapp/DialogScreens/DialogProcessing.dart';
+import 'package:driverapp/DialogScreens/DialogSuccess.dart';
 
 class DriverOptionsPage extends StatefulWidget {
   DriverOptionsPage({Key key, this.title}) : super(key: key);

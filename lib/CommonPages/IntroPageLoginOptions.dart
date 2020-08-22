@@ -1,7 +1,7 @@
+import 'package:driverapp/BottomSheets/AccountBottomSheetLoggedOut.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/LENOVO/Desktop/transporter-app/lib/BottomSheets/AccountBottomSheetLoggedOut.dart';
-import 'package:transportationapp/MyConstants.dart';
+import 'package:driverapp/MyConstants.dart';
 
 class IntroPageLoginOptions extends StatefulWidget {
   IntroPageLoginOptions({Key key}) : super(key: key);
@@ -53,89 +53,6 @@ class _IntroPageLoginOptionsState extends State<IntroPageLoginOptions> {
                       ),
                       SizedBox(
                         height: 30.0,
-                      ),
-                      Stack(
-                        children: <Widget>[
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            height: MediaQuery.of(context).size.width * 0.35,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, transporterOptionPage);
-                            },
-                            child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                width: MediaQuery.of(context).size.width * 0.38,
-                                height:
-                                    MediaQuery.of(context).size.width * 0.35,
-                                child: Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 18.0, bottom: 10.0),
-                                    child: Text(
-                                      "Transporter",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17.0),
-                                    ),
-                                  ),
-                                )),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 40.0,
-                      ),
-                      Stack(
-                        children: <Widget>[
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            height: MediaQuery.of(context).size.width * 0.35,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(context, ownerOptionPage);
-                            },
-                            child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                width: MediaQuery.of(context).size.width * 0.38,
-                                height:
-                                    MediaQuery.of(context).size.width * 0.35,
-                                child: Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 18.0, bottom: 10.0),
-                                    child: Text(
-                                      "Truck Owner",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17.0),
-                                    ),
-                                  ),
-                                )),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 40.0,
                       ),
                       Stack(
                         children: <Widget>[

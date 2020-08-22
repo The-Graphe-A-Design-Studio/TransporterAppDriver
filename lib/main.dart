@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:transportationapp/RouteGenerator.dart';
-import 'package:transportationapp/SplashScreen.dart';
+import 'package:driverapp/RouteGenerator.dart';
+import 'package:driverapp/SplashScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

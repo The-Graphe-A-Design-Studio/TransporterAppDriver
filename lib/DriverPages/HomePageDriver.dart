@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/LENOVO/Desktop/transporter-app/lib/BottomSheets/AccountBottomSheetLoggedIn.dart';
-import 'package:transportationapp/HttpHandler.dart';
-import 'package:transportationapp/Models/User.dart';
+import 'package:driverapp/HttpHandler.dart';
+import 'package:driverapp/Models/User.dart';
+import 'package:driverapp/BottomSheets/AccountBottomSheetLoggedIn.dart';
 
 class HomePageDriver extends StatefulWidget {
   final UserDriver userDriver;
