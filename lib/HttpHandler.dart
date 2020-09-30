@@ -10,8 +10,7 @@ import 'package:driverapp/PostMethodResult.dart';
 import 'package:driverapp/Models/User.dart';
 
 class HTTPHandler {
-  String baseURLDriver =
-      'https://developers.thegraphe.com/transport/api/drivers';
+  String baseURLDriver = 'https://truckwale.co.in/api/driver';
 
   void signOut(BuildContext context) async {
     DialogProcessing().showCustomDialog(context,
@@ -27,14 +26,10 @@ class HTTPHandler {
         context, introLoginOptionPage, (route) => false);
   }
 
-  void saveLocalChangesOwner(UserOwner userOwner) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('userData', json.encode(userOwner.toJson()));
-  }
-
   Future<List<TruckCategory>> getTruckCategory() async {
     try {
-      var result = await http.get("https://truckwale.co.in/api/truck_owner/truck_categories");
+      var result = await http
+          .get("https://truckwale.co.in/api/truck_owner/truck_categories");
       var ret = json.decode(result.body);
       List<TruckCategory> list = [];
       for (var i in ret) {
@@ -47,43 +42,24 @@ class HTTPHandler {
   }
 
   /*-------------------------- Driver API's ---------------------------*/
-  Future<PostResultOne> registerDriver(List data) async {
+
+  Future<List> registerVerifyOtpDriver(List data) async {
     try {
-      var url = "$baseURLDriver/register";
-      var request = http.MultipartRequest('POST', Uri.parse(url));
-
-      request.fields['d_name'] = data[0];
-      request.fields['d_email'] = data[1];
-      request.fields['d_phone_code'] = data[2];
-      request.fields['d_phone'] = data[3];
-      request.fields['d_password'] = data[4];
-      request.fields['d_cnf_password'] = data[5];
-      request.fields['d_address'] = data[6];
-      request.files.add(await http.MultipartFile.fromPath('d_rc', data[7]));
-      request.files
-          .add(await http.MultipartFile.fromPath('d_license', data[8]));
-      request.files
-          .add(await http.MultipartFile.fromPath('d_insurance', data[9]));
-      request.files
-          .add(await http.MultipartFile.fromPath('d_road_tax', data[10]));
-      request.files.add(await http.MultipartFile.fromPath('d_rto', data[11]));
-      request.fields['d_pan'] = data[12];
-      request.fields['d_bank'] = data[13];
-      request.fields['d_ifsc'] = data[14];
-
-      var result = await request.send();
-      var finalResult = await http.Response.fromStream(result);
-      return PostResultOne.fromJson(json.decode(finalResult.body));
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  Future<PostResultOne> registerVerifyOtpDriver(List data) async {
-    try {
-      var result = await http.post("$baseURLDriver/register",
+      var result = await http.post("$baseURLDriver/driver_verification",
           body: {'phone_number': data[0], 'otp': data[1]});
-      return PostResultOne.fromJson(json.decode(result.body));
+      var jsonResult = json.decode(result.body);
+      if (jsonResult['success'] == '1') {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setBool('rememberMe', data[2]);
+        prefs.setString('userType', driverUser);
+        prefs.setString('userData', result.body);
+        return [true, jsonResult];
+      } else {
+        PostResultOne postResultOne = PostResultOne.fromJson(jsonResult);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setBool('rememberMe', false);
+        return [false, postResultOne];
+      }
     } catch (error) {
       throw error;
     }
@@ -91,7 +67,7 @@ class HTTPHandler {
 
   Future<PostResultOne> registerResendOtpDriver(List data) async {
     try {
-      var result = await http.post("$baseURLDriver/register", body: {
+      var result = await http.post("$baseURLDriver/driver_verification", body: {
         'resend_otp': data[0],
       });
       return PostResultOne.fromJson(json.decode(result.body));
@@ -100,24 +76,14 @@ class HTTPHandler {
     }
   }
 
-  Future<List> loginDriver(List data) async {
+  Future<PostResultOne> loginDriver(List data) async {
     try {
-      var result = await http.post("$baseURLDriver/login",
-          body: {'phone_code': '91', 'phone': data[0], 'password': data[1]});
-      var jsonResult = json.decode(result.body);
-      if (jsonResult['success'] == '1') {
-        UserDriver userDriver = UserDriver.fromJson(jsonResult);
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setBool('rememberMe', data[2]);
-        prefs.setString('userType', driverUser);
-        prefs.setString('userData', result.body);
-        return [true, userDriver];
-      } else {
-        PostResultOne postResultOne = PostResultOne.fromJson(jsonResult);
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setBool('rememberMe', false);
-        return [false, postResultOne];
-      }
+      var result = await http.post("$baseURLDriver/driver_enter", body: {
+        'trk_dr_phone_code': '91',
+        'trk_dr_phone': data[0],
+        'trk_dr_token': ' ',
+      });
+      return PostResultOne.fromJson(json.decode(result.body));
     } catch (error) {
       throw error;
     }

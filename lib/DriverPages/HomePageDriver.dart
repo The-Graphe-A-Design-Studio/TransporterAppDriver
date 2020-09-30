@@ -48,7 +48,7 @@ class _HomePageDriverState extends State<HomePageDriver> {
                           height: 30.0,
                         ),
                         Text(
-                          "You Are Logged in : Name - ${widget.userDriver.dName}",
+                          "You Are Logged in : Name - ${widget.userDriver.name}",
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,

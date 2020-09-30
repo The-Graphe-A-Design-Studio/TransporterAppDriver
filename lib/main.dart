@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:driverapp/RouteGenerator.dart';
 import 'package:driverapp/SplashScreen.dart';
 
+import 'MyConstants.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -22,7 +24,7 @@ class StartApp extends StatelessWidget {
         accentColorBrightness: Brightness.light,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: '/',
+      initialRoute: splashPage,
       onGenerateRoute: RouteGenerator.generateRoute,
       home: SplashScreen(),
     );
