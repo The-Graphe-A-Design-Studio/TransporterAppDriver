@@ -1,3 +1,4 @@
+import 'package:driverapp/MyConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:driverapp/HttpHandler.dart';
@@ -13,7 +14,6 @@ class HomePageDriver extends StatefulWidget {
 }
 
 class _HomePageDriverState extends State<HomePageDriver> {
-
   @override
   void initState() {
     super.initState();
@@ -100,6 +100,20 @@ class _HomePageDriverState extends State<HomePageDriver> {
                         SizedBox(
                           height: 40.0,
                         ),
+                        GestureDetector(
+                          onTap: () => Navigator.pushReplacementNamed(
+                            context,
+                            driverDocsUploadPage,
+                            arguments: widget.userDriver,
+                          ),
+                          child: Container(
+                            height: 50.0,
+                            width: 200.0,
+                            color: Colors.white,
+                            alignment: Alignment.center,
+                            child: Text('Docs'),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -122,8 +136,8 @@ class _HomePageDriverState extends State<HomePageDriver> {
                           topLeft: Radius.circular(30.0),
                           topRight: Radius.circular(30.0)),
                     ),
-                    child:
-                        AccountBottomSheetLoggedIn(scrollController: scrollController)),
+                    child: AccountBottomSheetLoggedIn(
+                        scrollController: scrollController)),
               );
             },
           ),

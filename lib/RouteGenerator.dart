@@ -1,3 +1,4 @@
+import 'package:driverapp/DriverPages/DriverDocsUploadPage.dart';
 import 'package:flutter/material.dart';
 import 'package:driverapp/CommonPages/EmiCalculator.dart';
 import 'package:driverapp/CommonPages/FadeTransition.dart';
@@ -26,7 +27,7 @@ class RouteGenerator {
       case driverOptionPage:
         return FadeRoute(page: DriverOptionsPage());
 
-    //Pages which don't need LoggedIn User
+      //Pages which don't need LoggedIn User
       case emiCalculatorPage:
         return FadeRoute(page: EmiCalculator());
       case freightCalculatorPage:
@@ -36,11 +37,15 @@ class RouteGenerator {
       case tripPlannerPage:
         return FadeRoute(page: TripPlanner());
 
-    //Pages once the user is LoggedIn - Driver
+      //Pages once the user is LoggedIn - Driver
       case homePageDriver:
         return FadeRoute(page: HomePageDriver(userDriver: args));
       case driverUpcomingOrderPage:
         return FadeRoute(page: DriverUpcomingOrder());
+      case driverDocsUploadPage:
+        return FadeRoute(
+          page: DriverDocsUploadPage(userDriver: args),
+        );
 
       default:
         return _errorRoute();

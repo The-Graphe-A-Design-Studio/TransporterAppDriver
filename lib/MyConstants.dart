@@ -23,17 +23,4 @@ const String tripPlannerPage = "/tripPlannerPage";
 //Pages once the user is LoggedIn - Driver
 const String homePageDriver = "/homePageDriver";
 const String driverUpcomingOrderPage = "/driverUpcomingOrderPage";
-
-//Pages once the user is LoggedIn - Transporter
-const String homePageTransporter = "/homePageTransporter";
-const String uploadDocsTransporter = "/uploadDocsTransporter";
-const String newTransportingOrderPage = "/newTransportingOrderPage";
-const String orderSummaryPage = "/orderSummaryPage";
-const String requestTransportPage = "/requestTransportPage";
-
-//Pages once the user is LoggedIn - Owner
-const String homePageOwner = "/homePageOwner";
-const String addTruckOwner = "/addTruckOwner";
-const String viewTrucksOwner = "/viewTrucksOwner";
-const String editTrucksOwner = "/editTrucksOwner";
-const String viewProfileOwner = "/viewProfileOwner";
+const String driverDocsUploadPage = "/driverDocs";

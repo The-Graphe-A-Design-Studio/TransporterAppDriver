@@ -10,7 +10,8 @@ class AccountBottomSheetLoggedIn extends StatefulWidget {
       : super(key: key);
 
   @override
-  _AccountBottomSheetLoggedInState createState() => _AccountBottomSheetLoggedInState();
+  _AccountBottomSheetLoggedInState createState() =>
+      _AccountBottomSheetLoggedInState();
 }
 
 final List<String> imgList = [
@@ -21,7 +22,8 @@ final List<String> imgList = [
   'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
 ];
 
-class _AccountBottomSheetLoggedInState extends State<AccountBottomSheetLoggedIn> {
+class _AccountBottomSheetLoggedInState
+    extends State<AccountBottomSheetLoggedIn> {
   @override
   void initState() {
     super.initState();
@@ -374,7 +376,6 @@ class _AccountBottomSheetLoggedInState extends State<AccountBottomSheetLoggedIn>
               ],
             ),
           ),
-
           SizedBox(
             height: 20.0,
           ),
@@ -396,9 +397,7 @@ class _AccountBottomSheetLoggedInState extends State<AccountBottomSheetLoggedIn>
           ),
           Row(
             children: [
-              Text(
-                  "Sign Out"
-              ),
+              Text("Sign Out"),
               Spacer(),
               FlatButton(
                 onPressed: () {
@@ -413,9 +412,7 @@ class _AccountBottomSheetLoggedInState extends State<AccountBottomSheetLoggedIn>
           ),
           Row(
             children: [
-              Text(
-                "Driver Upcoming Order"
-              ),
+              Text("Driver Upcoming Order"),
               Spacer(),
               FlatButton(
                 onPressed: () {
@@ -424,60 +421,6 @@ class _AccountBottomSheetLoggedInState extends State<AccountBottomSheetLoggedIn>
                 child: Text("Link"),
               )
             ],
-          ),
-          SizedBox(
-            height: 8.0,
-          ),
-          Row(
-            children: [
-              Text(
-                  "New Transporting Order"
-              ),
-              Spacer(),
-              FlatButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, newTransportingOrderPage);
-                },
-                child: Text("Link"),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 8.0,
-          ),
-          Row(
-            children: [
-              Text(
-                  "Order Summary Page"
-              ),
-              Spacer(),
-              FlatButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, orderSummaryPage);
-                },
-                child: Text("Link"),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 8.0,
-          ),
-          Row(
-            children: [
-              Text(
-                  "Request Transport"
-              ),
-              Spacer(),
-              FlatButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, requestTransportPage);
-                },
-                child: Text("Link"),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 40.0,
           ),
         ],
       ),

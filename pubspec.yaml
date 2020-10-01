@@ -20,6 +20,7 @@ dependencies:
   autocomplete_textfield: ^1.7.3
   pin_code_text_field: ^1.7.1
   image_picker: ^0.6.7+4
+  toast: ^0.1.5
 
 dev_dependencies:
   flutter_test:

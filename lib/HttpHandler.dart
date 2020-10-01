@@ -88,4 +88,40 @@ class HTTPHandler {
       throw error;
     }
   }
+
+  Future<PostResultOne> addUpdateSelfie(List data) async {
+    try {
+      var url = '$baseURLDriver/driver_docs';
+
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+
+      request.fields['trk_id'] = data[0];
+      request.files
+          .add(await http.MultipartFile.fromPath('trk_dr_selfie', data[1]));
+
+      var result = await request.send();
+      var finalResult = await http.Response.fromStream(result);
+      return PostResultOne.fromJson(json.decode(finalResult.body));
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<PostResultOne> addUpdateLicense(List data) async {
+    try {
+      var url = '$baseURLDriver/driver_docs';
+
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+
+      request.fields['trk_id'] = data[0];
+      request.files
+          .add(await http.MultipartFile.fromPath('trk_dr_license', data[1]));
+
+      var result = await request.send();
+      var finalResult = await http.Response.fromStream(result);
+      return PostResultOne.fromJson(json.decode(finalResult.body));
+    } catch (error) {
+      throw error;
+    }
+  }
 }
