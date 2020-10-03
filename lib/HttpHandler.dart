@@ -7,7 +7,7 @@ import 'package:driverapp/DialogScreens/DialogSuccess.dart';
 import 'package:driverapp/Models/TruckCategory.dart';
 import 'package:driverapp/MyConstants.dart';
 import 'package:driverapp/PostMethodResult.dart';
-import 'package:driverapp/Models/User.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class HTTPHandler {
   String baseURLDriver = 'https://truckwale.co.in/api/driver';
@@ -78,10 +78,15 @@ class HTTPHandler {
 
   Future<PostResultOne> loginDriver(List data) async {
     try {
+      final fcm = FirebaseMessaging();
+      fcm.requestNotificationPermissions();
+      fcm.configure();
+      var token = await fcm.getToken();
+      print('token => $token');
       var result = await http.post("$baseURLDriver/driver_enter", body: {
         'trk_dr_phone_code': '91',
         'trk_dr_phone': data[0],
-        'trk_dr_token': ' ',
+        'trk_dr_token': token,
       });
       return PostResultOne.fromJson(json.decode(result.body));
     } catch (error) {

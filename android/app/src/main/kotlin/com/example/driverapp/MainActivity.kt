@@ -1,4 +1,4 @@
-package com.example.driverapp
+package com.graphe.driverapp
 
 import io.flutter.embedding.android.FlutterActivity
 
