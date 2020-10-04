@@ -1,3 +1,4 @@
+import 'package:driverapp/DriverPages/AddDelivery.dart';
 import 'package:driverapp/DriverPages/DeliveriesPage.dart';
 import 'package:driverapp/DriverPages/DriverDocsUploadPage.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +50,8 @@ class RouteGenerator {
         );
       case deliveriesPage:
         return FadeRoute(page: DeliveriesPage(userDriver: args));
+      case newDelivery:
+        return FadeRoute(page: AddDelivery(userDriver: args));
 
       default:
         return _errorRoute();

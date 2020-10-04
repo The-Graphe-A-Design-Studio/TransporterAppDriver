@@ -22,6 +22,7 @@ class _HomePageDriverState extends State<HomePageDriver> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: Color(0xff252427),
       body: Stack(
         children: [
@@ -112,6 +113,23 @@ class _HomePageDriverState extends State<HomePageDriver> {
                             color: Colors.white,
                             alignment: Alignment.center,
                             child: Text('Docs'),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        GestureDetector(
+                          onTap: () => Navigator.pushReplacementNamed(
+                            context,
+                            newDelivery,
+                            arguments: widget.userDriver,
+                          ),
+                          child: Container(
+                            height: 50.0,
+                            width: 200.0,
+                            color: Colors.white,
+                            alignment: Alignment.center,
+                            child: Text('Add Delivery'),
                           ),
                         ),
                         SizedBox(

@@ -172,4 +172,19 @@ class HTTPHandler {
       throw e;
     }
   }
+
+  Future<PostResultOne> newOrderOTPVerification(List data) async {
+    try {
+      var response = await http.post('$baseURLDriver/new_delivery', body: {
+        'truck_id': data[0],
+        'del_trk_id': data[1],
+        'otp': data[2],
+      });
+
+      return PostResultOne.fromJson(json.decode(response.body));
+    } catch (e) {
+      print(e);
+      throw e;
+    }
+  }
 }
