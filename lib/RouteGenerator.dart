@@ -1,3 +1,4 @@
+import 'package:driverapp/DriverPages/DeliveriesPage.dart';
 import 'package:driverapp/DriverPages/DriverDocsUploadPage.dart';
 import 'package:flutter/material.dart';
 import 'package:driverapp/CommonPages/EmiCalculator.dart';
@@ -46,6 +47,8 @@ class RouteGenerator {
         return FadeRoute(
           page: DriverDocsUploadPage(userDriver: args),
         );
+      case deliveriesPage:
+        return FadeRoute(page: DeliveriesPage(userDriver: args));
 
       default:
         return _errorRoute();

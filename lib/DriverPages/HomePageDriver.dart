@@ -114,6 +114,23 @@ class _HomePageDriverState extends State<HomePageDriver> {
                             child: Text('Docs'),
                           ),
                         ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        GestureDetector(
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            deliveriesPage,
+                            arguments: widget.userDriver,
+                          ),
+                          child: Container(
+                            height: 50.0,
+                            width: 200.0,
+                            color: Colors.white,
+                            alignment: Alignment.center,
+                            child: Text('My Deliveries'),
+                          ),
+                        ),
                       ],
                     ),
                   ),

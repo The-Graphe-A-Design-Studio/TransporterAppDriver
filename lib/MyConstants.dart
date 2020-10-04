@@ -1,6 +1,7 @@
 //API Key
 const GoogleApiKey = "AIzaSyCSdJNFravZ9yjzisUAhLgohy_MWbS41XI";
-const autoCompleteLink = "https://maps.googleapis.com/maps/api/place/autocomplete/json?key=$GoogleApiKey&components=country:in&types=(cities)&input=";
+const autoCompleteLink =
+    "https://maps.googleapis.com/maps/api/place/autocomplete/json?key=$GoogleApiKey&components=country:in&types=(cities)&input=";
 
 //Basic Pages
 const String splashPage = "/";
@@ -24,3 +25,4 @@ const String tripPlannerPage = "/tripPlannerPage";
 const String homePageDriver = "/homePageDriver";
 const String driverUpcomingOrderPage = "/driverUpcomingOrderPage";
 const String driverDocsUploadPage = "/driverDocs";
+const String deliveriesPage = '/myDel';

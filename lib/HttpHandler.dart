@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:driverapp/Models/Delivery.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -127,6 +128,35 @@ class HTTPHandler {
       return PostResultOne.fromJson(json.decode(finalResult.body));
     } catch (error) {
       throw error;
+    }
+  }
+
+  Future<Delivery> getNewDelivery(List data) async {
+    try {
+      var response = await http.post(
+        '$baseURLDriver/new_delivery',
+        body: {'driver_phone': data[0]},
+      );
+
+      if (json.decode(response.body)['success'] == '0') return null;
+
+      return Delivery.fromJson(json.decode(response.body));
+    } catch (e) {
+      print(e);
+      throw e;
+    }
+  }
+
+  Future<PostResultOne> completeTrip(List data) async {
+    try {
+      var response = await http.post('$baseURLDriver/new_delivery', body: {
+        'del_trk_id': data[0],
+      });
+
+      return PostResultOne.fromJson(json.decode(response.body));
+    } catch (e) {
+      print(e);
+      throw e;
     }
   }
 }
