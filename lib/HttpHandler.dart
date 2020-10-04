@@ -159,4 +159,17 @@ class HTTPHandler {
       throw e;
     }
   }
+
+  Future<void> updateLocation(List data) async {
+    try {
+      http.post('$baseURLDriver/my_location', body: {
+        'del_trk_id': data[0],
+        'lat': data[1],
+        'lng': data[2],
+      });
+    } catch (e) {
+      print(e);
+      throw e;
+    }
+  }
 }

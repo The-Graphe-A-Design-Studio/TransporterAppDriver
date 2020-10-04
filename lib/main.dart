@@ -11,7 +11,13 @@ void main() async {
   runApp(StartApp());
 }
 
-class StartApp extends StatelessWidget {
+class StartApp extends StatefulWidget {
+  @override
+  _StartAppState createState() => _StartAppState();
+}
+
+class _StartAppState extends State<StartApp> {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

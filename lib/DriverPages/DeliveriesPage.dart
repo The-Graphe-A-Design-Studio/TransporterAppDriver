@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:driverapp/DialogScreens/DialogFailed.dart';
 import 'package:driverapp/DialogScreens/DialogProcessing.dart';
 import 'package:driverapp/DialogScreens/DialogSuccess.dart';
@@ -5,6 +7,7 @@ import 'package:driverapp/HttpHandler.dart';
 import 'package:driverapp/Models/Delivery.dart';
 import 'package:driverapp/Models/User.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 class DeliveriesPage extends StatefulWidget {
   final UserDriver userDriver;
@@ -39,6 +42,16 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
   void initState() {
     super.initState();
     HTTPHandler().getNewDelivery([widget.userDriver.phone]).then((value) {
+      if (value != null) {
+        Timer.periodic(const Duration(minutes: 10), (_) {
+          getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+              .then((value1) {
+            print(value);
+            HTTPHandler().updateLocation(
+                [value.deliveryIdForTruck, value1.latitude, value1.longitude]);
+          });
+        });
+      }
       setState(() {
         this.delivery = value;
         controller = true;
