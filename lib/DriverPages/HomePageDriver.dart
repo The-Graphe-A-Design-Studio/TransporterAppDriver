@@ -98,57 +98,6 @@ class _HomePageDriverState extends State<HomePageDriver> {
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: 40.0,
-                        ),
-                        GestureDetector(
-                          onTap: () => Navigator.pushReplacementNamed(
-                            context,
-                            driverDocsUploadPage,
-                            arguments: widget.userDriver,
-                          ),
-                          child: Container(
-                            height: 50.0,
-                            width: 200.0,
-                            color: Colors.white,
-                            alignment: Alignment.center,
-                            child: Text('Docs'),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        GestureDetector(
-                          onTap: () => Navigator.pushReplacementNamed(
-                            context,
-                            newDelivery,
-                            arguments: widget.userDriver,
-                          ),
-                          child: Container(
-                            height: 50.0,
-                            width: 200.0,
-                            color: Colors.white,
-                            alignment: Alignment.center,
-                            child: Text('Add Delivery'),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        GestureDetector(
-                          onTap: () => Navigator.pushNamed(
-                            context,
-                            deliveriesPage,
-                            arguments: widget.userDriver,
-                          ),
-                          child: Container(
-                            height: 50.0,
-                            width: 200.0,
-                            color: Colors.white,
-                            alignment: Alignment.center,
-                            child: Text('My Deliveries'),
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -172,7 +121,9 @@ class _HomePageDriverState extends State<HomePageDriver> {
                           topRight: Radius.circular(30.0)),
                     ),
                     child: AccountBottomSheetLoggedIn(
-                        scrollController: scrollController)),
+                      scrollController: scrollController,
+                      userDriver: widget.userDriver,
+                    )),
               );
             },
           ),

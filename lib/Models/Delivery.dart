@@ -10,6 +10,8 @@ class Delivery {
   var paymentMode;
   String contactPerson;
   String contactPersonPhone;
+  String truckId;
+  String onTrip;
 
   Delivery({
     this.deliveryIdForTruck,
@@ -21,6 +23,8 @@ class Delivery {
     this.paymentMode,
     this.contactPerson,
     this.contactPersonPhone,
+    this.truckId,
+    this.onTrip,
   });
 
   factory Delivery.fromJson(Map<String, dynamic> parsedJson) {
@@ -42,6 +46,8 @@ class Delivery {
       paymentMode: parsedJson['payment mode'],
       contactPerson: parsedJson['contact person'],
       contactPersonPhone: parsedJson['contact person phone'],
+      truckId: parsedJson['truck id'],
+      onTrip: parsedJson['truck on trip'],
     );
   }
 }
