@@ -57,7 +57,7 @@ class _DeliverySelectorPageState extends State<DeliverySelectorPage> {
                               deliveriesPage,
                               arguments: [
                                 widget.user,
-                                e['truck id'],
+                                e['delivery id of truck'],
                               ],
                             ),
                           ),

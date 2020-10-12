@@ -134,6 +134,7 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
   }
 
   getDelivery() {
+    print('${widget.args[1]} is it');
     HTTPHandler().getNewDelivery([widget.args[1]]).then((value) {
       if (value != null) {
         Timer.periodic(const Duration(minutes: 10), (_) {
