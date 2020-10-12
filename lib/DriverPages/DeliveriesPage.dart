@@ -231,11 +231,13 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
                                                 ),
                                               ),
                                               SizedBox(width: 10.0),
-                                              Text(
-                                                '${e.city}, ${e.state}',
-                                                style: TextStyle(
-                                                  fontSize: 15.0,
-                                                  fontWeight: FontWeight.w500,
+                                              Flexible(
+                                                child: Text(
+                                                  '${e.source}',
+                                                  style: TextStyle(
+                                                    fontSize: 15.0,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
                                                 ),
                                               ),
                                             ],
@@ -293,11 +295,13 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
                                                 ),
                                               ),
                                               SizedBox(width: 10.0),
-                                              Text(
-                                                '${e.city}, ${e.state}',
-                                                style: TextStyle(
-                                                  fontSize: 15.0,
-                                                  fontWeight: FontWeight.w500,
+                                              Flexible(
+                                                child: Text(
+                                                  '${e.destination}',
+                                                  style: TextStyle(
+                                                    fontSize: 15.0,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
                                                 ),
                                               ),
                                             ],
