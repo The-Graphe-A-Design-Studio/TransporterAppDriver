@@ -13,9 +13,10 @@ import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class DeliveriesPage extends StatefulWidget {
-  final UserDriver userDriver;
+  // final UserDriver userDriver;
+  final List args;
 
-  DeliveriesPage({Key key, @required this.userDriver}) : super(key: key);
+  DeliveriesPage({Key key, @required this.args}) : super(key: key);
 
   @override
   _DeliveriesPageState createState() => _DeliveriesPageState();
@@ -133,7 +134,7 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
   }
 
   getDelivery() {
-    HTTPHandler().getNewDelivery([widget.userDriver.phone]).then((value) {
+    HTTPHandler().getNewDelivery([widget.args[1]]).then((value) {
       if (value != null) {
         Timer.periodic(const Duration(minutes: 10), (_) {
           getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
@@ -363,6 +364,168 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
                                   SizedBox(height: 8.0),
                                   Text(
                                     '${delivery.material}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 20.0),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Contact Person',
+                                style: TextStyle(
+                                  fontSize: 13.0,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                              SizedBox(height: 8.0),
+                              Text(
+                                '${delivery.paymentMode['mode name']}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ),
+                          if (delivery.paymentMode['mode name'] ==
+                              'Advance Pay')
+                            SizedBox(height: 20.0),
+                          if (delivery.paymentMode['mode name'] ==
+                              'Advance Pay')
+                            Row(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Name',
+                                      style: TextStyle(
+                                        fontSize: 13.0,
+                                        color: Colors.black54,
+                                      ),
+                                    ),
+                                    SizedBox(height: 8.0),
+                                    Text(
+                                      'Advance',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(width: 25.0),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Amount',
+                                      style: TextStyle(
+                                        fontSize: 13.0,
+                                        color: Colors.black54,
+                                      ),
+                                    ),
+                                    SizedBox(height: 8.0),
+                                    Text(
+                                      '${delivery.paymentMode['payment']['advance amount']['amount']}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(width: 25.0),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Status',
+                                      style: TextStyle(
+                                        fontSize: 13.0,
+                                        color: Colors.black54,
+                                      ),
+                                    ),
+                                    SizedBox(height: 8.0),
+                                    Text(
+                                      (delivery.paymentMode['payment']
+                                                      ['advance amount']
+                                                  ['status'] ==
+                                              '0')
+                                          ? 'Due'
+                                          : 'Paid',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          SizedBox(height: 20.0),
+                          Row(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Name',
+                                    style: TextStyle(
+                                      fontSize: 13.0,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                  SizedBox(height: 8.0),
+                                  Text(
+                                    'Remaining',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(width: 25.0),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Amount',
+                                    style: TextStyle(
+                                      fontSize: 13.0,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                  SizedBox(height: 8.0),
+                                  Text(
+                                    '${delivery.paymentMode['payment']['remaining amount']['amount']}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(width: 25.0),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Status',
+                                    style: TextStyle(
+                                      fontSize: 13.0,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                  SizedBox(height: 8.0),
+                                  Text(
+                                    (delivery.paymentMode['payment']
+                                                    ['remaining amount']
+                                                ['status'] ==
+                                            '0')
+                                        ? 'Due'
+                                        : 'Paid',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w700,
                                     ),

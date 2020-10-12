@@ -1,5 +1,6 @@
 import 'package:driverapp/DriverPages/AddDelivery.dart';
 import 'package:driverapp/DriverPages/DeliveriesPage.dart';
+import 'package:driverapp/DriverPages/DeliverySelectorPage.dart';
 import 'package:driverapp/DriverPages/DriverDocsUploadPage.dart';
 import 'package:flutter/material.dart';
 import 'package:driverapp/CommonPages/EmiCalculator.dart';
@@ -49,9 +50,11 @@ class RouteGenerator {
           page: DriverDocsUploadPage(userDriver: args),
         );
       case deliveriesPage:
-        return FadeRoute(page: DeliveriesPage(userDriver: args));
+        return FadeRoute(page: DeliveriesPage(args: args));
       case newDelivery:
         return FadeRoute(page: AddDelivery(userDriver: args));
+      case delSelector:
+        return FadeRoute(page: DeliverySelectorPage(user: args));
 
       default:
         return _errorRoute();

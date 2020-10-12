@@ -135,7 +135,7 @@ class HTTPHandler {
     try {
       var response = await http.post(
         '$baseURLDriver/new_delivery',
-        body: {'driver_phone': data[0]},
+        body: {'delivery_truck_id': data[0]},
       );
 
       if (json.decode(response.body)['success'] == '0') return null;
@@ -182,6 +182,28 @@ class HTTPHandler {
       });
 
       return PostResultOne.fromJson(json.decode(response.body));
+    } catch (e) {
+      print(e);
+      throw e;
+    }
+  }
+
+  Future<List<dynamic>> getNewDel(String mobileNo) async {
+    try {
+      print(mobileNo);
+      var response = await http.post(
+        '$baseURLDriver/get_delivery',
+        body: {
+          'driver_phone': mobileNo,
+        },
+      );
+
+      print(response.body);
+
+      if (json.decode(response.body) is List)
+        return json.decode(response.body);
+      else
+        return null;
     } catch (e) {
       print(e);
       throw e;

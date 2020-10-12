@@ -401,7 +401,8 @@ class _AccountBottomSheetLoggedInState
             child: ListTile(
               onTap: () => Navigator.pushNamed(
                 context,
-                deliveriesPage,
+                // deliveriesPage,
+                delSelector,
                 arguments: widget.userDriver,
               ),
               leading: Icon(Icons.done_all),
