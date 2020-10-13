@@ -25,6 +25,7 @@ dependencies:
   toast: ^0.1.5
   firebase_messaging: ^7.0.2
   geolocator: ^6.0.0+4
+  pull_to_refresh: ^1.6.2
 
 dev_dependencies:
   flutter_test:
