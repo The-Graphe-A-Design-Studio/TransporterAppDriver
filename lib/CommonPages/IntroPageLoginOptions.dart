@@ -1,4 +1,3 @@
-import 'package:driverapp/BottomSheets/AccountBottomSheetLoggedOut.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:driverapp/MyConstants.dart';
@@ -109,21 +108,22 @@ class _IntroPageLoginOptionsState extends State<IntroPageLoginOptions> {
               return Hero(
                 tag: 'AnimeBottom',
                 child: Container(
-                    margin: EdgeInsets.only(bottom: 0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black,
-                          blurRadius: 10.0,
-                        ),
-                      ],
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30.0),
-                          topRight: Radius.circular(30.0)),
-                    ),
-                    child: AccountBottomSheetLoggedOut(
-                        scrollController: scrollController)),
+                  margin: EdgeInsets.only(bottom: 0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black,
+                        blurRadius: 10.0,
+                      ),
+                    ],
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30.0),
+                        topRight: Radius.circular(30.0)),
+                  ),
+                  // child: AccountBottomSheetLoggedOut(
+                  //     scrollController: scrollController)
+                ),
               );
             },
           ),

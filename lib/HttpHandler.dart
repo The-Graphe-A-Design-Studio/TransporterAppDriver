@@ -166,6 +166,7 @@ class HTTPHandler {
         'del_trk_id': data[0],
         'lat': data[1],
         'lng': data[2],
+        'truck_id': data[4],
       });
     } catch (e) {
       print(e);

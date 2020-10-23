@@ -3,12 +3,8 @@ import 'package:driverapp/DriverPages/DeliveriesPage.dart';
 import 'package:driverapp/DriverPages/DeliverySelectorPage.dart';
 import 'package:driverapp/DriverPages/DriverDocsUploadPage.dart';
 import 'package:flutter/material.dart';
-import 'package:driverapp/CommonPages/EmiCalculator.dart';
 import 'package:driverapp/CommonPages/FadeTransition.dart';
-import 'package:driverapp/CommonPages/FreightCalculator.dart';
 import 'package:driverapp/CommonPages/IntroPageLoginOptions.dart';
-import 'package:driverapp/CommonPages/TollCalculator.dart';
-import 'package:driverapp/CommonPages/TripPlanner.dart';
 import 'package:driverapp/DriverPages/DriverOptionsPage.dart';
 import 'package:driverapp/DriverPages/DriverUpcomingOrder.dart';
 import 'package:driverapp/DriverPages/HomePageDriver.dart';
@@ -29,16 +25,6 @@ class RouteGenerator {
         return FadeRoute(page: IntroPageLoginOptions());
       case driverOptionPage:
         return FadeRoute(page: DriverOptionsPage());
-
-      //Pages which don't need LoggedIn User
-      case emiCalculatorPage:
-        return FadeRoute(page: EmiCalculator());
-      case freightCalculatorPage:
-        return FadeRoute(page: FreightCalculator());
-      case tollCalculatorPage:
-        return FadeRoute(page: TollCalculator());
-      case tripPlannerPage:
-        return FadeRoute(page: TripPlanner());
 
       //Pages once the user is LoggedIn - Driver
       case homePageDriver:

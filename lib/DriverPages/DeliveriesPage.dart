@@ -154,8 +154,12 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
           getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
               .then((value1) {
             print(value);
-            HTTPHandler().updateLocation(
-                [value.deliveryIdForTruck, value1.latitude, value1.longitude]);
+            HTTPHandler().updateLocation([
+              value.deliveryIdForTruck,
+              value1.latitude,
+              value1.longitude,
+              (widget.args[0] as UserDriver).id,
+            ]);
           });
         });
       }
