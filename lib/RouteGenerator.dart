@@ -4,7 +4,6 @@ import 'package:driverapp/DriverPages/DeliverySelectorPage.dart';
 import 'package:driverapp/DriverPages/DriverDocsUploadPage.dart';
 import 'package:flutter/material.dart';
 import 'package:driverapp/CommonPages/FadeTransition.dart';
-import 'package:driverapp/CommonPages/IntroPageLoginOptions.dart';
 import 'package:driverapp/DriverPages/DriverOptionsPage.dart';
 import 'package:driverapp/DriverPages/DriverUpcomingOrder.dart';
 import 'package:driverapp/DriverPages/HomePageDriver.dart';
@@ -21,8 +20,6 @@ class RouteGenerator {
         return FadeRoute(page: SplashScreen());
 
       //Login or Signup Pages
-      case introLoginOptionPage:
-        return FadeRoute(page: IntroPageLoginOptions());
       case driverOptionPage:
         return FadeRoute(page: DriverOptionsPage());
 

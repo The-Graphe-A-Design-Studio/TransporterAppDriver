@@ -401,16 +401,26 @@ class _AccountBottomSheetLoggedInState
             child: ListTile(
               onTap: () => Navigator.pushNamed(
                 context,
-                // deliveriesPage,
                 delSelector,
                 arguments: widget.userDriver,
               ),
-              leading: Icon(Icons.done_all),
+              leading: Icon(
+                Icons.done_all,
+                color: Colors.white,
+              ),
               title: Text(
                 'My Delivery',
-                style: TextStyle(fontWeight: FontWeight.w600),
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
               ),
-              subtitle: Text('Check All Active Deliveries'),
+              subtitle: Text(
+                'Check All Active Deliveries',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
           ),
           // Material(
@@ -435,21 +445,38 @@ class _AccountBottomSheetLoggedInState
                 driverDocsUploadPage,
                 arguments: widget.userDriver,
               ),
-              leading: Icon(Icons.pages),
+              leading: Icon(
+                Icons.pages,
+                color: Colors.white,
+              ),
               title: Text(
                 'Documents',
-                style: TextStyle(fontWeight: FontWeight.w600),
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
               ),
-              subtitle: Text('View or Update Documents'),
+              subtitle: Text(
+                'View or Update Documents',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
           ),
           Material(
             child: ListTile(
               onTap: () => HTTPHandler().signOut(context),
-              leading: Icon(Icons.logout),
+              leading: Icon(
+                Icons.logout,
+                color: Colors.white,
+              ),
               title: Text(
                 'Logout',
-                style: TextStyle(fontWeight: FontWeight.w600),
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),

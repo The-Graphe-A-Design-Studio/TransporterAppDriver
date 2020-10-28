@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:driverapp/MyConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:driverapp/HttpHandler.dart';
 import 'package:driverapp/Models/User.dart';
 import 'package:driverapp/BottomSheets/AccountBottomSheetLoggedIn.dart';
+import 'package:geolocator/geolocator.dart';
 
 class HomePageDriver extends StatefulWidget {
   final UserDriver userDriver;
@@ -17,13 +20,23 @@ class _HomePageDriverState extends State<HomePageDriver> {
   @override
   void initState() {
     super.initState();
+    Timer.periodic(const Duration(minutes: 10), (_) {
+      getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((value1) {
+        HTTPHandler().updateLocation([
+          '',
+          value1.latitude.toString(),
+          value1.longitude.toString(),
+          widget.userDriver.id,
+        ]);
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Color(0xff252427),
+      backgroundColor: Theme.of(context).primaryColor,
       body: Stack(
         children: [
           Column(
@@ -53,7 +66,7 @@ class _HomePageDriverState extends State<HomePageDriver> {
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: Colors.black87,
                           ),
                         ),
                         SizedBox(
@@ -63,7 +76,7 @@ class _HomePageDriverState extends State<HomePageDriver> {
                           children: <Widget>[
                             Container(
                               decoration: BoxDecoration(
-                                color: Colors.grey,
+                                color: Colors.grey[200],
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               width: MediaQuery.of(context).size.width * 0.7,
@@ -75,7 +88,7 @@ class _HomePageDriverState extends State<HomePageDriver> {
                               },
                               child: Container(
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: Colors.black87,
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   width:
@@ -90,8 +103,10 @@ class _HomePageDriverState extends State<HomePageDriver> {
                                       child: Text(
                                         "Sign Out",
                                         style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 17.0),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 17.0,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
                                   )),
@@ -115,7 +130,7 @@ class _HomePageDriverState extends State<HomePageDriver> {
                 child: Container(
                     margin: EdgeInsets.only(bottom: 0),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.black87,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(30.0),
                           topRight: Radius.circular(30.0)),

@@ -46,6 +46,7 @@ class _DeliverySelectorPageState extends State<DeliverySelectorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         title: Text('Deliveries'),
       ),
@@ -68,22 +69,26 @@ class _DeliverySelectorPageState extends State<DeliverySelectorPage> {
                   children: dels
                       .map((e) => Padding(
                             padding: const EdgeInsets.all(10.0),
-                            child: ListTile(
-                              tileColor: Colors.white,
-                              title: Text(
-                                  'Delivery ID : ${e['delivery id of truck']}'),
-                              subtitle: Text('${e['message']}'),
-                              trailing: Icon(
-                                Icons.chevron_right,
-                                color: Colors.black,
-                              ),
-                              onTap: () => Navigator.pushNamed(
-                                context,
-                                deliveriesPage,
-                                arguments: [
-                                  widget.user,
-                                  e['delivery id of truck'],
-                                ],
+                            child: Container(
+                              color: Colors.black87,
+                              padding: const EdgeInsets.all(0.5),
+                              child: ListTile(
+                                tileColor: Colors.white,
+                                title: Text(
+                                    'Delivery ID : ${e['delivery id of truck']}'),
+                                subtitle: Text('${e['message']}'),
+                                trailing: Icon(
+                                  Icons.chevron_right,
+                                  color: Colors.black,
+                                ),
+                                onTap: () => Navigator.pushNamed(
+                                  context,
+                                  deliveriesPage,
+                                  arguments: [
+                                    widget.user,
+                                    e['delivery id of truck'],
+                                  ],
+                                ),
                               ),
                             ),
                           ))

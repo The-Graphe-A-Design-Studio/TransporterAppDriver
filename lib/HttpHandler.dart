@@ -24,7 +24,7 @@ class HTTPHandler {
     await Future.delayed(Duration(seconds: 1), () {});
     Navigator.pop(context);
     Navigator.pushNamedAndRemoveUntil(
-        context, introLoginOptionPage, (route) => false);
+        context, driverOptionPage, (route) => false);
   }
 
   Future<List<TruckCategory>> getTruckCategory() async {
@@ -166,7 +166,7 @@ class HTTPHandler {
         'del_trk_id': data[0],
         'lat': data[1],
         'lng': data[2],
-        'truck_id': data[4],
+        'truck_id': data[3],
       });
     } catch (e) {
       print(e);

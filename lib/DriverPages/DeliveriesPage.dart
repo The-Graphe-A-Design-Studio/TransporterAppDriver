@@ -156,8 +156,8 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
             print(value);
             HTTPHandler().updateLocation([
               value.deliveryIdForTruck,
-              value1.latitude,
-              value1.longitude,
+              value1.latitude.toString(),
+              value1.longitude.toString(),
               (widget.args[0] as UserDriver).id,
             ]);
           });
@@ -187,8 +187,14 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+      backgroundColor: Colors.black87,
       appBar: AppBar(
-        title: Text('My Deliveries'),
+        backgroundColor: Colors.black,
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Text(
+          'My Deliveries',
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       body: (delivery == null && !controller)
           ? Center(

@@ -5,11 +5,13 @@ import 'package:driverapp/MyConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:driverapp/HttpHandler.dart';
-import 'package:pin_code_text_field/pin_code_text_field.dart';
+import 'package:flutter/services.dart';
 import 'package:driverapp/DialogScreens/DialogFailed.dart';
 import 'package:driverapp/DialogScreens/DialogProcessing.dart';
 import 'package:driverapp/DialogScreens/DialogSuccess.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sms_otp_auto_verify/sms_otp_auto_verify.dart';
+import 'package:toast/toast.dart';
 
 class DriverOptionsPage extends StatefulWidget {
   DriverOptionsPage({Key key, this.title}) : super(key: key);
@@ -36,6 +38,8 @@ class _DriverOptionsPageState extends State<DriverOptionsPage> {
   String userToken;
   bool rememberMe = true;
 
+  String _otpCode = "";
+
   @override
   void initState() {
     super.initState();
@@ -55,46 +59,50 @@ class _DriverOptionsPageState extends State<DriverOptionsPage> {
   }
 
   void postSignInRequest(BuildContext _context) {
-    DialogProcessing().showCustomDialog(context,
-        title: "OTP Verification", text: "Processing, Please Wait!");
-    HTTPHandler().registerVerifyOtpDriver([
-      mobileNumberControllerSignIn.text,
-      otpController.text,
-      true,
-    ]).then((value) async {
-      if (value[0]) {
-        Navigator.pop(context);
-        DialogSuccess().showCustomDialog(context, title: "OTP Verification");
-        await Future.delayed(Duration(seconds: 1), () {});
-        Navigator.pop(context);
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setBool("rememberMe", true);
-        prefs.setString("userData", json.encode(value[1]));
-        if (UserDriver.fromJson(value[1]).success) {
-          Navigator.pushNamedAndRemoveUntil(
-            _context,
-            homePageDriver,
-            (route) => false,
-            arguments: UserDriver.fromJson(value[1]),
-          );
+    if (_otpCode.length == 6) {
+      DialogProcessing().showCustomDialog(context,
+          title: "OTP Verification", text: "Processing, Please Wait!");
+      HTTPHandler().registerVerifyOtpDriver([
+        mobileNumberControllerSignIn.text,
+        _otpCode,
+        true,
+      ]).then((value) async {
+        if (value[0]) {
+          Navigator.pop(context);
+          DialogSuccess().showCustomDialog(context, title: "OTP Verification");
+          await Future.delayed(Duration(seconds: 1), () {});
+          Navigator.pop(context);
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setBool("rememberMe", true);
+          prefs.setString("userData", json.encode(value[1]));
+          if (UserDriver.fromJson(value[1]).success) {
+            Navigator.pushNamedAndRemoveUntil(
+              _context,
+              homePageDriver,
+              (route) => false,
+              arguments: UserDriver.fromJson(value[1]),
+            );
+          } else {
+            print('not verified');
+          }
         } else {
-          print('not verified');
+          Navigator.pop(context);
+          DialogFailed().showCustomDialog(context,
+              title: "OTP Verification", text: value[0].message);
+          await Future.delayed(Duration(seconds: 3), () {});
+          Navigator.pop(context);
         }
-      } else {
-        Navigator.pop(context);
+      }).catchError((error) async {
+        // Navigator.pop(context);
+        print(error);
         DialogFailed().showCustomDialog(context,
-            title: "OTP Verification", text: value[0].message);
+            title: "OTP Verification", text: "Network Error");
         await Future.delayed(Duration(seconds: 3), () {});
         Navigator.pop(context);
-      }
-    }).catchError((error) async {
-      // Navigator.pop(context);
-      print(error);
-      DialogFailed().showCustomDialog(context,
-          title: "OTP Verification", text: "Network Error");
-      await Future.delayed(Duration(seconds: 3), () {});
-      Navigator.pop(context);
-    });
+      });
+    } else {
+      Toast.show('Enter Complete OTP', context);
+    }
   }
 
   void postOtpRequest(BuildContext _context) {
@@ -159,6 +167,11 @@ class _DriverOptionsPageState extends State<DriverOptionsPage> {
     });
   }
 
+  _getSignatureCode() async {
+    String signature = await SmsRetrieved.getAppSignature();
+    print("signature $signature");
+  }
+
   Widget getOtpVerificationBottomSheetWidget(
       context, ScrollController scrollController) {
     return ListView(controller: scrollController, children: <Widget>[
@@ -220,36 +233,35 @@ class _DriverOptionsPageState extends State<DriverOptionsPage> {
               Align(
                 alignment: Alignment.center,
                 child: Image(
-                  image: AssetImage('assets/images/logo_black.png'),
-                  height: 145.0,
-                  width: 145.0,
+                  image: AssetImage('assets/images/logo_white.png'),
+                  height: 125.0,
+                  width: 125.0,
                 ),
               ),
               SizedBox(
-                height: 20.0,
+                height: 40.0,
               ),
-              Align(
-                alignment: Alignment.center,
-                child: PinCodeTextField(
-                  autofocus: true,
-                  controller: otpController,
-                  highlight: true,
-                  highlightColor: Colors.black,
-                  defaultBorderColor: Colors.grey,
-                  hasTextBorderColor: Colors.black,
-                  pinBoxWidth: 32,
-                  maxLength: 6,
-                  wrapAlignment: WrapAlignment.center,
-                  pinBoxDecoration:
-                      ProvidedPinBoxDecoration.underlinedPinBoxDecoration,
-                  pinTextStyle: TextStyle(fontSize: 26.0),
-                  pinTextAnimatedSwitcherTransition:
-                      ProvidedPinBoxTextAnimation.scalingTransition,
-                  pinTextAnimatedSwitcherDuration: Duration(milliseconds: 150),
-                  highlightAnimationBeginColor: Colors.black,
-                  highlightAnimationEndColor: Colors.white12,
-                  keyboardType: TextInputType.number,
+              TextFieldPin(
+                borderStyeAfterTextChange: UnderlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  borderSide: BorderSide(color: Colors.black87),
                 ),
+                borderStyle: UnderlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  borderSide: BorderSide(color: Colors.black87),
+                ),
+                codeLength: 6,
+                boxSize: 40,
+                textStyle: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                ),
+                filledAfterTextChange: true,
+                filledColor: Colors.white,
+                onOtpCallback: (code, isAutofill) {
+                  print(code);
+                  this._otpCode = code;
+                },
               ),
               SizedBox(
                 height: 16.0,
@@ -329,7 +341,8 @@ class _DriverOptionsPageState extends State<DriverOptionsPage> {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
-                            Navigator.pop(context);
+                            // Navigator.pop(context);
+                            SystemNavigator.pop();
                           },
                           child: CircleAvatar(
                             backgroundColor: Colors.transparent,
@@ -347,13 +360,13 @@ class _DriverOptionsPageState extends State<DriverOptionsPage> {
                 Align(
                   alignment: Alignment.center,
                   child: Image(
-                    image: AssetImage('assets/images/logo_black.png'),
-                    height: 145.0,
-                    width: 145.0,
+                    image: AssetImage('assets/images/logo_white.png'),
+                    height: 125.0,
+                    width: 125.0,
                   ),
                 ),
                 SizedBox(
-                  height: 20.0,
+                  height: 40.0,
                 ),
                 Align(
                   alignment: Alignment.center,
@@ -365,11 +378,19 @@ class _DriverOptionsPageState extends State<DriverOptionsPage> {
                       textInputAction: TextInputAction.done,
                       decoration: InputDecoration(
                         labelText: "Mobile Number",
+                        labelStyle: TextStyle(color: Colors.black87),
                         prefixText: "+91     ",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                           borderSide: BorderSide(
                             color: Colors.amber,
+                            style: BorderStyle.solid,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          borderSide: BorderSide(
+                            color: Colors.black87,
                             style: BorderStyle.solid,
                           ),
                         ),
@@ -393,9 +414,6 @@ class _DriverOptionsPageState extends State<DriverOptionsPage> {
                   child: InkWell(
                     splashColor: Colors.transparent,
                     onTap: () {
-                      // if (_formKeySignIn.currentState.validate()) {
-                      //   postOtpRequest(context);
-                      // }
                       if (mobileNumberControllerSignIn.text.length == 10)
                         postOtpRequest(context);
                     },
@@ -524,10 +542,12 @@ class _DriverOptionsPageState extends State<DriverOptionsPage> {
 
   @override
   Widget build(BuildContext context) {
+    _getSignatureCode();
+
     return WillPopScope(
       onWillPop: onBackPressed,
       child: Scaffold(
-        backgroundColor: Color(0xff252427),
+        backgroundColor: Colors.black87,
         body: Stack(
           children: <Widget>[
             getCustomWidget(context),
@@ -541,7 +561,7 @@ class _DriverOptionsPageState extends State<DriverOptionsPage> {
                   tag: 'AnimeBottom',
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).primaryColor,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black,
