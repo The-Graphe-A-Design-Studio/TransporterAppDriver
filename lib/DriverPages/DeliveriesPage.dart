@@ -150,7 +150,17 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
     print('${widget.args[1]} is it');
     HTTPHandler().getNewDelivery([widget.args[1]]).then((value) {
       if (value != null) {
-        Timer.periodic(const Duration(minutes: 10), (_) {
+        getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+            .then((value1) {
+          print(value);
+          HTTPHandler().updateLocation([
+            value.deliveryIdForTruck,
+            value1.latitude.toString(),
+            value1.longitude.toString(),
+            (widget.args[0] as UserDriver).id,
+          ]);
+        });
+        Timer.periodic(const Duration(seconds: 5), (_) {
           getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
               .then((value1) {
             print(value);
@@ -622,43 +632,48 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onPressed: () {
-                                      DialogProcessing().showCustomDialog(
-                                          context,
-                                          title: "Complete Trip",
-                                          text: "Processing, Please Wait!");
-                                      HTTPHandler().completeTrip([
-                                        delivery.deliveryIdForTruck
-                                      ]).then((value) async {
-                                        Navigator.pop(context);
-                                        if (value.success) {
-                                          DialogSuccess().showCustomDialog(
-                                              context,
-                                              title: "Complete Trip");
-                                          await Future.delayed(
-                                              Duration(seconds: 1), () {});
+                                      if (_allDuesClear()) {
+                                        DialogProcessing().showCustomDialog(
+                                            context,
+                                            title: "Complete Trip",
+                                            text: "Processing, Please Wait!");
+                                        HTTPHandler().completeTrip([
+                                          delivery.deliveryIdForTruck
+                                        ]).then((value) async {
                                           Navigator.pop(context);
-                                          Navigator.of(context).pop();
-                                        } else {
+                                          if (value.success) {
+                                            DialogSuccess().showCustomDialog(
+                                                context,
+                                                title: "Complete Trip");
+                                            await Future.delayed(
+                                                Duration(seconds: 1), () {});
+                                            Navigator.pop(context);
+                                            Navigator.of(context).pop();
+                                          } else {
+                                            DialogFailed().showCustomDialog(
+                                                context,
+                                                title: "Complete Trip",
+                                                text: value.message);
+                                            await Future.delayed(
+                                                Duration(seconds: 3), () {});
+                                            Navigator.pop(context);
+                                            Navigator.of(context).pop();
+                                          }
+                                        }).catchError((error) async {
+                                          print(error);
+                                          Navigator.pop(context);
                                           DialogFailed().showCustomDialog(
                                               context,
                                               title: "Complete Trip",
-                                              text: value.message);
+                                              text: "Network Error");
                                           await Future.delayed(
                                               Duration(seconds: 3), () {});
                                           Navigator.pop(context);
                                           Navigator.of(context).pop();
-                                        }
-                                      }).catchError((error) async {
-                                        print(error);
-                                        Navigator.pop(context);
-                                        DialogFailed().showCustomDialog(context,
-                                            title: "Complete Trip",
-                                            text: "Network Error");
-                                        await Future.delayed(
-                                            Duration(seconds: 3), () {});
-                                        Navigator.pop(context);
-                                        Navigator.of(context).pop();
-                                      });
+                                        });
+                                      } else
+                                        Toast.show(
+                                            'User has dues unpaid', context);
                                     },
                                   ),
                               ],
@@ -670,5 +685,18 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
                   ),
                 ),
     );
+  }
+
+  bool _allDuesClear() {
+    if (delivery.paymentMode['mode'] == '2') {
+      if (delivery.paymentMode['payment']['advance amount']['status'] == '1' &&
+          delivery.paymentMode['payment']['remaining amount']['status'] == '1')
+        return true;
+    } else {
+      if (delivery.paymentMode['payment']['remaining amount']['status'] == '1')
+        return true;
+    }
+
+    return false;
   }
 }
