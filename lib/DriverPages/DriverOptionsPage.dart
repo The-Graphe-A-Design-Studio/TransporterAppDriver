@@ -40,6 +40,12 @@ class _DriverOptionsPageState extends State<DriverOptionsPage> {
 
   String _otpCode = "";
 
+  void saveOTP() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setString('otp', _otpCode);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -68,6 +74,7 @@ class _DriverOptionsPageState extends State<DriverOptionsPage> {
         true,
       ]).then((value) async {
         if (value[0]) {
+          saveOTP();
           Navigator.pop(context);
           DialogSuccess().showCustomDialog(context, title: "OTP Verification");
           await Future.delayed(Duration(seconds: 1), () {});

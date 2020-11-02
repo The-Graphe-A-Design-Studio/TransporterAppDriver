@@ -20,11 +20,9 @@ class _DeliverySelectorPageState extends State<DeliverySelectorPage> {
       RefreshController(initialRefresh: false);
 
   void _onRefresh(BuildContext context) async {
-    // monitor network fetch
     print('working properly');
     getDeliveries();
     await Future.delayed(Duration(milliseconds: 1000));
-    // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
   }
 

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:driverapp/DialogScreens/DialogFailed.dart';
@@ -8,6 +9,7 @@ import 'package:driverapp/Models/User.dart';
 import 'package:driverapp/MyConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
 class DriverDocsUploadPage extends StatefulWidget {
@@ -118,17 +120,37 @@ class _DriverDocsUploadPageState extends State<DriverDocsUploadPage> {
     }
   }
 
+  void reloadUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    HTTPHandler().registerVerifyOtpDriver([
+      widget.userDriver.phone,
+      prefs.getString('otp'),
+      true,
+    ]).then((value) {
+      prefs.setBool("rememberMe", true);
+      prefs.setString("userData", json.encode(value[1]));
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        homePageDriver,
+        (route) => false,
+        arguments: UserDriver.fromJson(value[1]),
+      );
+    });
+  }
+
   void postUpdateRequestLicense() async {
     if (imageFile1 == null) {
       print('no change in license');
       if (imageFile != null) {
-        HTTPHandler().signOut(context);
-        Toast.show(
-          'Please login again to verify changes!',
-          context,
-          gravity: Toast.CENTER,
-          duration: Toast.LENGTH_LONG,
-        );
+        reloadUser();
+        // HTTPHandler().signOut(context);
+        // Toast.show(
+        //   'Please login again to verify changes!',
+        //   context,
+        //   gravity: Toast.CENTER,
+        //   duration: Toast.LENGTH_LONG,
+        // );
       }
     } else {
       print('change in license');
@@ -138,17 +160,17 @@ class _DriverDocsUploadPageState extends State<DriverDocsUploadPage> {
           [widget.userDriver.id, (await imageFile1).path]).then((value) async {
         if (value.success) {
           Navigator.pop(context);
-          DialogSuccess()
-              .showCustomDialog(context, title: "Uploading License");
+          DialogSuccess().showCustomDialog(context, title: "Uploading License");
           await Future.delayed(Duration(seconds: 1), () {});
           Navigator.pop(context);
-          HTTPHandler().signOut(context);
-          Toast.show(
-            'Please login again to verify changes!',
-            context,
-            gravity: Toast.CENTER,
-            duration: Toast.LENGTH_LONG,
-          );
+          reloadUser();
+          // HTTPHandler().signOut(context);
+          // Toast.show(
+          //   'Please login again to verify changes!',
+          //   context,
+          //   gravity: Toast.CENTER,
+          //   duration: Toast.LENGTH_LONG,
+          // );
         } else {
           Navigator.pop(context);
           DialogFailed().showCustomDialog(context,

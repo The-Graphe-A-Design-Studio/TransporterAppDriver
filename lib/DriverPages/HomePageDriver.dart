@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:driverapp/MyConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:driverapp/HttpHandler.dart';
@@ -22,10 +21,8 @@ class _HomePageDriverState extends State<HomePageDriver> {
       RefreshController(initialRefresh: false);
 
   void _onRefresh(BuildContext context) async {
-    // monitor network fetch
     print('working properly');
     await Future.delayed(Duration(milliseconds: 1000));
-    // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
   }
 

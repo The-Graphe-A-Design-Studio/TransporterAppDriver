@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:driverapp/DialogScreens/DialogProcessing.dart';
 import 'package:driverapp/DialogScreens/DialogSuccess.dart';
-import 'package:driverapp/Models/TruckCategory.dart';
 import 'package:driverapp/MyConstants.dart';
 import 'package:driverapp/PostMethodResult.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -25,21 +24,6 @@ class HTTPHandler {
     Navigator.pop(context);
     Navigator.pushNamedAndRemoveUntil(
         context, driverOptionPage, (route) => false);
-  }
-
-  Future<List<TruckCategory>> getTruckCategory() async {
-    try {
-      var result = await http
-          .get("https://truckwale.co.in/api/truck_owner/truck_categories");
-      var ret = json.decode(result.body);
-      List<TruckCategory> list = [];
-      for (var i in ret) {
-        list.add(TruckCategory.fromJson(i));
-      }
-      return list;
-    } catch (error) {
-      throw error;
-    }
   }
 
   /*-------------------------- Driver API's ---------------------------*/

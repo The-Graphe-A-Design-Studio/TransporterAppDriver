@@ -14,7 +14,6 @@ import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class DeliveriesPage extends StatefulWidget {
-  // final UserDriver userDriver;
   final List args;
 
   DeliveriesPage({Key key, @required this.args}) : super(key: key);
@@ -33,11 +32,9 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
       RefreshController(initialRefresh: false);
 
   void _onRefresh(BuildContext context) async {
-    // monitor network fetch
     print('working properly');
     getDelivery();
     await Future.delayed(Duration(milliseconds: 1000));
-    // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
   }
 
@@ -430,7 +427,7 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Contact Person',
+                                  'Payment Mode',
                                   style: TextStyle(
                                     fontSize: 13.0,
                                     color: Colors.black54,
