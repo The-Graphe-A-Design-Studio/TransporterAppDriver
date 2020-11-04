@@ -157,7 +157,7 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
             (widget.args[0] as UserDriver).id,
           ]);
         });
-        Timer.periodic(const Duration(seconds: 5), (_) {
+        Timer.periodic(const Duration(seconds: 2), (_) {
           getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
               .then((value1) {
             print(value);
