@@ -13,3 +13,4 @@ const String homePageDriver = "/homePageDriver";
 const String driverDocsUploadPage = "/driverDocs";
 const String deliveriesPage = '/myDel';
 const String delSelector = '/deliverySelector';
+const String truckDocs = '/truck';

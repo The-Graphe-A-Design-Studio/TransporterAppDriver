@@ -116,6 +116,35 @@ class _AccountBottomSheetLoggedInState
             child: ListTile(
               onTap: () => Navigator.pushReplacementNamed(
                 context,
+                truckDocs,
+                arguments: [
+                  widget.userDriver,
+                  widget.data,
+                ],
+              ),
+              leading: Icon(
+                Icons.pages,
+                color: Colors.white,
+              ),
+              title: Text(
+                'Truck Documents',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
+              subtitle: Text(
+                'View or Update Documents',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          Material(
+            child: ListTile(
+              onTap: () => Navigator.pushReplacementNamed(
+                context,
                 driverDocsUploadPage,
                 arguments: [
                   widget.userDriver,
@@ -127,7 +156,7 @@ class _AccountBottomSheetLoggedInState
                 color: Colors.white,
               ),
               title: Text(
-                'Documents',
+                'My Documents',
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   color: Colors.white,
