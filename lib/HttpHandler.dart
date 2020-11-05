@@ -206,4 +206,22 @@ class HTTPHandler {
       throw e;
     }
   }
+
+  Future<List<Delivery>> getpreviousLoads(String truckId) async {
+    try {
+      var response = await http.post('$baseURLDriver/old_delivery', body: {
+        'truck_id': truckId
+      });
+
+      List<Delivery> oldDels = [];
+      for (var i = 0 ; i < json.decode(response.body).length ; i++) {
+        oldDels.add(Delivery.fromJson(json.decode(response.body)[i]));
+      }
+
+      return oldDels;
+    } catch (e) {
+      print(e);
+      throw e;
+    }
+  }
 }
