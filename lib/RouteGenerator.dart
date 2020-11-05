@@ -1,6 +1,7 @@
 import 'package:driverapp/DriverPages/DeliveriesPage.dart';
 import 'package:driverapp/DriverPages/DeliverySelectorPage.dart';
 import 'package:driverapp/DriverPages/DriverDocsUploadPage.dart';
+import 'package:driverapp/Models/User.dart';
 import 'package:flutter/material.dart';
 import 'package:driverapp/CommonPages/FadeTransition.dart';
 import 'package:driverapp/DriverPages/DriverOptionsPage.dart';
@@ -26,7 +27,10 @@ class RouteGenerator {
         return FadeRoute(page: HomePageDriver(userDriver: args));
       case driverDocsUploadPage:
         return FadeRoute(
-          page: DriverDocsUploadPage(userDriver: args),
+          page: DriverDocsUploadPage(
+            userDriver: ((args as List)[0] as UserDriver),
+            docs: (args as List)[1],
+          ),
         );
       case deliveriesPage:
         return FadeRoute(page: DeliveriesPage(args: args));

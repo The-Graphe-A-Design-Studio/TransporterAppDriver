@@ -9,13 +9,18 @@ import 'package:driverapp/Models/User.dart';
 import 'package:driverapp/MyConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toast/toast.dart';
 
 class DriverDocsUploadPage extends StatefulWidget {
   final UserDriver userDriver;
+  final Map docs;
 
-  DriverDocsUploadPage({Key key, @required this.userDriver}) : super(key: key);
+  DriverDocsUploadPage({
+    Key key,
+    @required this.userDriver,
+    @required this.docs,
+  }) : super(key: key);
 
   @override
   _DriverDocsUploadPageState createState() => _DriverDocsUploadPageState();
@@ -254,12 +259,12 @@ class _DriverDocsUploadPageState extends State<DriverDocsUploadPage> {
                       ? Container(
                           height: 250.0,
                           width: double.infinity,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                  'https://truckwale.co.in/${selfieController.text}'),
-                              fit: BoxFit.contain,
-                            ),
+                          child: PhotoView(
+                            maxScale: PhotoViewComputedScale.contained,
+                            imageProvider: NetworkImage(
+                                'https://truckwale.co.in/${selfieController.text}'),
+                            backgroundDecoration:
+                                BoxDecoration(color: Colors.white),
                           ),
                         )
                       : Container(),
@@ -298,12 +303,12 @@ class _DriverDocsUploadPageState extends State<DriverDocsUploadPage> {
                       ? Container(
                           height: 250.0,
                           width: double.infinity,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                  'https://truckwale.co.in/${licenseController.text}'),
-                              fit: BoxFit.contain,
-                            ),
+                          child: PhotoView(
+                            maxScale: PhotoViewComputedScale.contained,
+                            imageProvider: NetworkImage(
+                                'https://truckwale.co.in/${licenseController.text}'),
+                            backgroundDecoration:
+                                BoxDecoration(color: Colors.white),
                           ),
                         )
                       : Container(),
@@ -378,10 +383,10 @@ class _DriverDocsUploadPageState extends State<DriverDocsUploadPage> {
     super.initState();
     selfieController = TextEditingController();
     licenseController = TextEditingController();
-    if (widget.userDriver.pic != null)
-      selfieController.text = widget.userDriver.pic;
-    if (widget.userDriver.license != null)
-      licenseController.text = widget.userDriver.license;
+    if (widget.docs['selfie'] != null)
+      selfieController.text = widget.docs['selfie'];
+    if (widget.docs['license'] != null)
+      licenseController.text = widget.docs['license'];
   }
 
   @override

@@ -194,4 +194,16 @@ class HTTPHandler {
       throw e;
     }
   }
+
+  Future<Map> getDocs(String truckId) async {
+    try {
+      var response = await http
+          .post('$baseURLDriver/driver_docs', body: {'truck_id': truckId});
+
+      return json.decode(response.body);
+    } catch (e) {
+      print(e);
+      throw e;
+    }
+  }
 }
