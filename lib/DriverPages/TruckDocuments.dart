@@ -49,24 +49,167 @@ class _TruckDocumentsState extends State<TruckDocuments> {
               ),
               Container(
                 margin: const EdgeInsets.only(left: 50.0, bottom: 20.0),
-                child: Text(
-                  'RC : ',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w600,
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: 'Owner Name : ',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      TextSpan(
+                        text: widget.docs['owner name'],
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
               Container(
-                height: 250.0,
-                width: double.infinity,
-                child: PhotoView(
-                  maxScale: PhotoViewComputedScale.contained,
-                  imageProvider: NetworkImage(
-                      'https://truckwale.co.in/${widget.docs['rc']}'),
-                  backgroundDecoration: BoxDecoration(color: Colors.white),
+                margin: const EdgeInsets.only(left: 50.0, bottom: 20.0),
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: 'Owner Phone : ',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      TextSpan(
+                        text: widget.docs['owner phone'],
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 50.0, bottom: 20.0),
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: 'Truck Number : ',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      TextSpan(
+                        text: widget.docs['truck number'],
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 50.0, bottom: 20.0),
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: 'Truck Category : ',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      TextSpan(
+                        text: widget.docs['truck category'],
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 50.0, bottom: 20.0),
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: 'Truck Type : ',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      TextSpan(
+                        text: widget.docs['truck type'],
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 50.0, bottom: 20.0),
+                child: Text(
+                  'RC : ',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              Stack(
+                children: [
+                  Container(
+                    height: 250.0,
+                    width: double.infinity,
+                    child: PhotoView(
+                      maxScale: PhotoViewComputedScale.contained,
+                      imageProvider: NetworkImage(
+                          'https://truckwale.co.in/${widget.docs['rc']}'),
+                      backgroundDecoration: BoxDecoration(color: Colors.white),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Container(
+                      width: 100.0,
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Colors.black,
+                      ),
+                      child: Text(
+                        (widget.docs['rc verified'] == '1')
+                            ? 'Verified'
+                            : 'Not Verified',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: 16.0,
@@ -77,20 +220,43 @@ class _TruckDocumentsState extends State<TruckDocuments> {
                   'RTO Passing : ',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 20.0,
+                    fontSize: 15.0,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
-              Container(
-                height: 250.0,
-                width: double.infinity,
-                child: PhotoView(
-                  maxScale: PhotoViewComputedScale.contained,
-                  imageProvider: NetworkImage(
-                      'https://truckwale.co.in/${widget.docs['rto pass']}'),
-                  backgroundDecoration: BoxDecoration(color: Colors.white),
-                ),
+              Stack(
+                children: [
+                  Container(
+                    height: 250.0,
+                    width: double.infinity,
+                    child: PhotoView(
+                      maxScale: PhotoViewComputedScale.contained,
+                      imageProvider: NetworkImage(
+                          'https://truckwale.co.in/${widget.docs['rto pass']}'),
+                      backgroundDecoration: BoxDecoration(color: Colors.white),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Container(
+                      width: 100.0,
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Colors.black,
+                      ),
+                      child: Text(
+                        (widget.docs['rto pass verified'] == '1')
+                            ? 'Verified'
+                            : 'Not Verified',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: 16.0,
@@ -101,20 +267,43 @@ class _TruckDocumentsState extends State<TruckDocuments> {
                   'Road Tax : ',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 20.0,
+                    fontSize: 15.0,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
-              Container(
-                height: 250.0,
-                width: double.infinity,
-                child: PhotoView(
-                  maxScale: PhotoViewComputedScale.contained,
-                  imageProvider: NetworkImage(
-                      'https://truckwale.co.in/${widget.docs['road tax']}'),
-                  backgroundDecoration: BoxDecoration(color: Colors.white),
-                ),
+              Stack(
+                children: [
+                  Container(
+                    height: 250.0,
+                    width: double.infinity,
+                    child: PhotoView(
+                      maxScale: PhotoViewComputedScale.contained,
+                      imageProvider: NetworkImage(
+                          'https://truckwale.co.in/${widget.docs['road tax']}'),
+                      backgroundDecoration: BoxDecoration(color: Colors.white),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Container(
+                      width: 100.0,
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Colors.black,
+                      ),
+                      child: Text(
+                        (widget.docs['road tax verified'] == '1')
+                            ? 'Verified'
+                            : 'Not Verified',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: 16.0,
@@ -125,20 +314,43 @@ class _TruckDocumentsState extends State<TruckDocuments> {
                   'Insaurance : ',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 20.0,
+                    fontSize: 15.0,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
-              Container(
-                height: 250.0,
-                width: double.infinity,
-                child: PhotoView(
-                  maxScale: PhotoViewComputedScale.contained,
-                  imageProvider: NetworkImage(
-                      'https://truckwale.co.in/${widget.docs['insurance']}'),
-                  backgroundDecoration: BoxDecoration(color: Colors.white),
-                ),
+              Stack(
+                children: [
+                  Container(
+                    height: 250.0,
+                    width: double.infinity,
+                    child: PhotoView(
+                      maxScale: PhotoViewComputedScale.contained,
+                      imageProvider: NetworkImage(
+                          'https://truckwale.co.in/${widget.docs['insurance']}'),
+                      backgroundDecoration: BoxDecoration(color: Colors.white),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Container(
+                      width: 100.0,
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Colors.black,
+                      ),
+                      child: Text(
+                        (widget.docs['insurance verified'] == '1')
+                            ? 'Verified'
+                            : 'Not Verified',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: 16.0,

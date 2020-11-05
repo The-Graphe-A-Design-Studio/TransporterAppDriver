@@ -63,7 +63,7 @@ class _HomePageDriverState extends State<HomePageDriver> {
       ]);
     });
 
-    Timer.periodic(const Duration(milliseconds: 500), (_) {
+    Timer.periodic(const Duration(milliseconds: 300), (_) {
       getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((value1) {
         HTTPHandler().updateLocation([
           '',

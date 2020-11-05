@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 
 class DriverDocsUploadPage extends StatefulWidget {
   final UserDriver userDriver;
@@ -228,7 +229,9 @@ class _DriverDocsUploadPageState extends State<DriverDocsUploadPage> {
                 height: 16.0,
               ),
               GestureDetector(
-                onTap: () => pickImageFromSystem(ImageSource.gallery),
+                onTap: () => (widget.docs['selfie verified'] == '1')
+                    ? Toast.show('Selfie already verified!', context)
+                    : pickImageFromSystem(ImageSource.gallery),
                 child: Material(
                   child: TextFormField(
                     controller: selfieController,
@@ -256,23 +259,48 @@ class _DriverDocsUploadPageState extends State<DriverDocsUploadPage> {
               (imageFile != null)
                   ? _imagePreview()
                   : (selfieController.text != null)
-                      ? Container(
-                          height: 250.0,
-                          width: double.infinity,
-                          child: PhotoView(
-                            maxScale: PhotoViewComputedScale.contained,
-                            imageProvider: NetworkImage(
-                                'https://truckwale.co.in/${selfieController.text}'),
-                            backgroundDecoration:
-                                BoxDecoration(color: Colors.white),
-                          ),
+                      ? Stack(
+                          children: [
+                            Container(
+                              height: 250.0,
+                              width: double.infinity,
+                              child: PhotoView(
+                                maxScale: PhotoViewComputedScale.contained,
+                                imageProvider: NetworkImage(
+                                    'https://truckwale.co.in/${selfieController.text}'),
+                                backgroundDecoration:
+                                    BoxDecoration(color: Colors.white),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: Container(
+                                width: 100.0,
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.all(5.0),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: Colors.black,
+                                ),
+                                child: Text(
+                                  (widget.docs['selfie verified'] == '1')
+                                      ? 'Verified'
+                                      : 'Not Verified',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            )
+                          ],
                         )
                       : Container(),
               SizedBox(
                 height: 16.0,
               ),
               GestureDetector(
-                onTap: () => pickImageFromSystem1(ImageSource.gallery),
+                onTap: () => (widget.docs['license verified'] == '1')
+                    ? Toast.show('License Already verifieed', context)
+                    : pickImageFromSystem1(ImageSource.gallery),
                 child: Material(
                   child: TextFormField(
                     controller: licenseController,
@@ -300,16 +328,39 @@ class _DriverDocsUploadPageState extends State<DriverDocsUploadPage> {
               (imageFile1 != null)
                   ? _imagePreview1()
                   : (licenseController.text != null)
-                      ? Container(
-                          height: 250.0,
-                          width: double.infinity,
-                          child: PhotoView(
-                            maxScale: PhotoViewComputedScale.contained,
-                            imageProvider: NetworkImage(
-                                'https://truckwale.co.in/${licenseController.text}'),
-                            backgroundDecoration:
-                                BoxDecoration(color: Colors.white),
-                          ),
+                      ? Stack(
+                          children: [
+                            Container(
+                              height: 250.0,
+                              width: double.infinity,
+                              child: PhotoView(
+                                maxScale: PhotoViewComputedScale.contained,
+                                imageProvider: NetworkImage(
+                                    'https://truckwale.co.in/${licenseController.text}'),
+                                backgroundDecoration:
+                                    BoxDecoration(color: Colors.white),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: Container(
+                                width: 100.0,
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.all(5.0),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: Colors.black,
+                                ),
+                                child: Text(
+                                  (widget.docs['license verified'] == '1')
+                                      ? 'Verified'
+                                      : 'Not Verified',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            )
+                          ],
                         )
                       : Container(),
               SizedBox(
