@@ -27,6 +27,7 @@ dependencies:
   geolocator: ^6.0.0+4
   pull_to_refresh: ^1.6.2
   sms_otp_auto_verify: ^1.2.2
+  location: ^3.0.0
 
 dev_dependencies:
   flutter_test:

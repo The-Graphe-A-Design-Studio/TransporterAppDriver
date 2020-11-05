@@ -45,14 +45,14 @@ class _HomePageDriverState extends State<HomePageDriver> {
       prefs.getString('otp'),
       true,
     ]).then((value) {
-        driver =  UserDriver.fromJson(value[1]);
+      driver = UserDriver.fromJson(value[1]);
     });
   }
 
   @override
   void initState() {
     super.initState();
-    driver =  widget.userDriver;
+    driver = widget.userDriver;
     getDocs();
     getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((value1) {
       HTTPHandler().updateLocation([
@@ -63,7 +63,7 @@ class _HomePageDriverState extends State<HomePageDriver> {
       ]);
     });
 
-    Timer.periodic(const Duration(milliseconds: 300), (_) {
+    Timer.periodic(const Duration(milliseconds: 100), (_) {
       getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((value1) {
         HTTPHandler().updateLocation([
           '',
@@ -77,8 +77,7 @@ class _HomePageDriverState extends State<HomePageDriver> {
 
   void getDocs() async {
     Map d = await HTTPHandler().getDocs(driver.id);
-    List<Delivery> dels =
-        await HTTPHandler().getpreviousLoads(driver.id);
+    List<Delivery> dels = await HTTPHandler().getpreviousLoads(driver.id);
     setState(() {
       docs = d;
       this.dels = dels;
@@ -140,7 +139,9 @@ class _HomePageDriverState extends State<HomePageDriver> {
                                     width: 0.5,
                                   ),
                                 ),
-                                child: Text('Call Us'),
+                                child: Text((docs['truck verified'] == '1')
+                                    ? 'Verified'
+                                    : 'Not Verified'),
                               ),
                             ],
                           ),
@@ -195,181 +196,171 @@ class _HomePageDriverState extends State<HomePageDriver> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0),
+                                                child: Text(
+                                                  'Post Id : ',
+                                                  style:
+                                                      TextStyle(fontSize: 18.0),
+                                                ),
+                                              ),
+                                              Text(
+                                                e.postId,
+                                                style: TextStyle(
+                                                  fontSize: 22.0,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(height: 20.0),
                                           Column(
-                                            children: e.sources
-                                                .map((e1) => Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
+                                            children: e.sources.map((e1) {
+                                              if (e.sources.indexOf(e1) == 0)
+                                                return Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
                                                               .start,
                                                       children: [
-                                                        GestureDetector(
-                                                          onTap: () => MapsLauncher
-                                                              .launchCoordinates(
-                                                            double.parse(
-                                                                e1.lat),
-                                                            double.parse(
-                                                                e1.lng),
-                                                            e1.destination,
-                                                          ),
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Container(
-                                                                width: 15.0,
-                                                                height: 15.0,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: Colors
-                                                                      .transparent,
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                  border: Border
-                                                                      .all(
-                                                                    color: Colors
-                                                                            .green[
-                                                                        600],
-                                                                    width: 3.0,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                  width: 10.0),
-                                                              Flexible(
-                                                                child: Text(
-                                                                  '${e1.source}',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        15.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
+                                                        Container(
+                                                          width: 15.0,
+                                                          height: 15.0,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors
+                                                                .transparent,
+                                                            shape:
+                                                                BoxShape.circle,
+                                                            border: Border.all(
+                                                              color: Colors
+                                                                  .green[600],
+                                                              width: 3.0,
+                                                            ),
                                                           ),
                                                         ),
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                            horizontal: 5.0,
-                                                            vertical: 3.0,
+                                                        SizedBox(width: 10.0),
+                                                        Flexible(
+                                                          child: Text(
+                                                            '${e1.source}',
+                                                            style: TextStyle(
+                                                              fontSize: 15.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
                                                           ),
-                                                          height: 5.0,
-                                                          width: 1.5,
-                                                          color: Colors.grey,
-                                                        ),
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                            horizontal: 5.0,
-                                                            vertical: 3.0,
-                                                          ),
-                                                          height: 5.0,
-                                                          width: 1.5,
-                                                          color: Colors.grey,
                                                         ),
                                                       ],
-                                                    ))
-                                                .toList(),
+                                                    ),
+                                                    Container(
+                                                      margin: const EdgeInsets
+                                                          .symmetric(
+                                                        horizontal: 5.0,
+                                                        vertical: 3.0,
+                                                      ),
+                                                      height: 5.0,
+                                                      width: 1.5,
+                                                      color: Colors.grey,
+                                                    ),
+                                                    Container(
+                                                      margin: const EdgeInsets
+                                                          .symmetric(
+                                                        horizontal: 5.0,
+                                                        vertical: 3.0,
+                                                      ),
+                                                      height: 5.0,
+                                                      width: 1.5,
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ],
+                                                );
+                                              else
+                                                return SizedBox();
+                                            }).toList(),
                                           ),
                                           Column(
-                                            children: e.destinations
-                                                .map((e1) => Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
+                                            children: e.destinations.map((e1) {
+                                              if (e.destinations.indexOf(e1) ==
+                                                  e.destinations.length - 1)
+                                                return Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
                                                               .start,
                                                       children: [
-                                                        GestureDetector(
-                                                          onTap: () => MapsLauncher
-                                                              .launchCoordinates(
-                                                            double.parse(
-                                                                e1.lat),
-                                                            double.parse(
-                                                                e1.lng),
-                                                            e1.destination,
-                                                          ),
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Container(
-                                                                width: 15.0,
-                                                                height: 15.0,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: Colors
-                                                                      .transparent,
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                  border: Border
-                                                                      .all(
-                                                                    color: Colors
-                                                                            .red[
-                                                                        600],
-                                                                    width: 3.0,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                  width: 10.0),
-                                                              Flexible(
-                                                                child: Text(
-                                                                  '${e1.destination}',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        15.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
+                                                        Container(
+                                                          width: 15.0,
+                                                          height: 15.0,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors
+                                                                .transparent,
+                                                            shape:
+                                                                BoxShape.circle,
+                                                            border: Border.all(
+                                                              color: Colors
+                                                                  .red[600],
+                                                              width: 3.0,
+                                                            ),
                                                           ),
                                                         ),
-                                                        if (e.destinations
-                                                                .indexOf(e1) !=
-                                                            (e.destinations
-                                                                    .length -
-                                                                1))
-                                                          Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                              horizontal: 5.0,
-                                                              vertical: 3.0,
+                                                        SizedBox(width: 10.0),
+                                                        Flexible(
+                                                          child: Text(
+                                                            '${e1.destination}',
+                                                            style: TextStyle(
+                                                              fontSize: 15.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
                                                             ),
-                                                            height: 5.0,
-                                                            width: 1.5,
-                                                            color: Colors.grey,
                                                           ),
-                                                        if (e.destinations
-                                                                .indexOf(e1) !=
-                                                            (e.destinations
-                                                                    .length -
-                                                                1))
-                                                          Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                              horizontal: 5.0,
-                                                              vertical: 3.0,
-                                                            ),
-                                                            height: 5.0,
-                                                            width: 1.5,
-                                                            color: Colors.grey,
-                                                          ),
+                                                        ),
                                                       ],
-                                                    ))
-                                                .toList(),
+                                                    ),
+                                                    if (e.destinations
+                                                            .indexOf(e1) !=
+                                                        (e.destinations.length -
+                                                            1))
+                                                      Container(
+                                                        margin: const EdgeInsets
+                                                            .symmetric(
+                                                          horizontal: 5.0,
+                                                          vertical: 3.0,
+                                                        ),
+                                                        height: 5.0,
+                                                        width: 1.5,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    if (e.destinations
+                                                            .indexOf(e1) !=
+                                                        (e.destinations.length -
+                                                            1))
+                                                      Container(
+                                                        margin: const EdgeInsets
+                                                            .symmetric(
+                                                          horizontal: 5.0,
+                                                          vertical: 3.0,
+                                                        ),
+                                                        height: 5.0,
+                                                        width: 1.5,
+                                                        color: Colors.grey,
+                                                      ),
+                                                  ],
+                                                );
+                                              else
+                                                return SizedBox();
+                                            }).toList(),
                                           ),
                                           SizedBox(height: 30.0),
                                           Row(
@@ -643,6 +634,50 @@ class _HomePageDriverState extends State<HomePageDriver> {
                                                       ),
                                                     ),
                                                   ],
+                                                ),
+                                              ],
+                                            ),
+                                          if (showMore) SizedBox(height: 20.0),
+                                          if (showMore)
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Trip Started',
+                                                  style: TextStyle(
+                                                    fontSize: 13.0,
+                                                    color: Colors.black54,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 8.0),
+                                                Text(
+                                                  e.data['trip start'],
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          if (showMore) SizedBox(height: 20.0),
+                                          if (showMore)
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Trip End',
+                                                  style: TextStyle(
+                                                    fontSize: 13.0,
+                                                    color: Colors.black54,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 8.0),
+                                                Text(
+                                                  e.data['trip end'],
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
                                                 ),
                                               ],
                                             ),

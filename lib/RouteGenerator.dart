@@ -40,7 +40,7 @@ class RouteGenerator {
           userDriver: ((args as List)[0] as UserDriver),
           docs: (args as List)[1],
         ));
-        
+
       case deliveriesPage:
         return FadeRoute(page: DeliveriesPage(args: args));
       case delSelector:

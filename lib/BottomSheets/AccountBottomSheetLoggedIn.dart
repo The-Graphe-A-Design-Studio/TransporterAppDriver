@@ -88,32 +88,6 @@ class _AccountBottomSheetLoggedInState
           SizedBox(height: 12.0),
           Material(
             child: ListTile(
-              onTap: () => Navigator.pushNamed(
-                context,
-                delSelector,
-                arguments: widget.userDriver,
-              ),
-              leading: Icon(
-                Icons.done_all,
-                color: Colors.white,
-              ),
-              title: Text(
-                'My Delivery',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
-              subtitle: Text(
-                'Check All Active Deliveries',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-          Material(
-            child: ListTile(
               onTap: () => Navigator.pushReplacementNamed(
                 context,
                 truckDocs,

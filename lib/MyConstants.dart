@@ -1,3 +1,5 @@
+const GoogleMapsKey = "AIzaSyDH8iEIWiHLIRcSsJWm8Fh1qbgwt0JRAc0";
+
 //Basic Pages
 const String splashPage = "/";
 const String driverUser = "Driver";

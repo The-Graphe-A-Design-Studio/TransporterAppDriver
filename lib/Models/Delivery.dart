@@ -12,6 +12,7 @@ class Delivery {
   String contactPersonPhone;
   String truckId;
   String onTrip;
+  Map data;
 
   Delivery({
     this.deliveryIdForTruck,
@@ -25,6 +26,7 @@ class Delivery {
     this.contactPersonPhone,
     this.truckId,
     this.onTrip,
+    this.data,
   });
 
   factory Delivery.fromJson(Map<String, dynamic> parsedJson) {
@@ -48,6 +50,7 @@ class Delivery {
       contactPersonPhone: parsedJson['contact person phone'],
       truckId: parsedJson['truck id'],
       onTrip: parsedJson['truck on trip'],
+      data: parsedJson,
     );
   }
 }

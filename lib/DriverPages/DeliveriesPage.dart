@@ -6,6 +6,7 @@ import 'package:driverapp/DialogScreens/DialogSuccess.dart';
 import 'package:driverapp/HttpHandler.dart';
 import 'package:driverapp/Models/Delivery.dart';
 import 'package:driverapp/Models/User.dart';
+import 'package:driverapp/MyConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:maps_launcher/maps_launcher.dart';
@@ -41,7 +42,6 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
   void modal() => _scaffoldKey.currentState.showBottomSheet(
         (BuildContext context) => Container(
           padding: const EdgeInsets.only(bottom: 30.0),
-          // height: 170.0,
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -157,7 +157,7 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
             (widget.args[0] as UserDriver).id,
           ]);
         });
-        Timer.periodic(const Duration(seconds: 2), (_) {
+        Timer.periodic(const Duration(milliseconds: 300), (_) {
           getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
               .then((value1) {
             print(value);
@@ -244,42 +244,43 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          GestureDetector(
-                                            onTap: () =>
-                                                MapsLauncher.launchCoordinates(
-                                              double.parse(e.lat),
-                                              double.parse(e.lng),
-                                              e.destination,
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  width: 15.0,
-                                                  height: 15.0,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.transparent,
-                                                    shape: BoxShape.circle,
-                                                    border: Border.all(
-                                                      color: Colors.green[600],
-                                                      width: 3.0,
-                                                    ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                width: 15.0,
+                                                height: 15.0,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.transparent,
+                                                  shape: BoxShape.circle,
+                                                  border: Border.all(
+                                                    color: Colors.green[600],
+                                                    width: 3.0,
                                                   ),
                                                 ),
-                                                SizedBox(width: 10.0),
-                                                Flexible(
-                                                  child: Text(
-                                                    '${e.source}',
-                                                    style: TextStyle(
-                                                      fontSize: 15.0,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
+                                              ),
+                                              SizedBox(width: 10.0),
+                                              Flexible(
+                                                child: Text(
+                                                  '${e.source}',
+                                                  style: TextStyle(
+                                                    fontSize: 15.0,
+                                                    fontWeight: FontWeight.w500,
                                                   ),
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                              SizedBox(width: 5.0),
+                                              GestureDetector(
+                                                onTap: () => MapsLauncher
+                                                    .launchCoordinates(
+                                                  double.parse(e.lat),
+                                                  double.parse(e.lng),
+                                                  e.destination,
+                                                ),
+                                                child: Icon(Icons.map_outlined),
+                                              ),
+                                            ],
                                           ),
                                           Container(
                                             margin: const EdgeInsets.symmetric(
@@ -309,42 +310,43 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          GestureDetector(
-                                            onTap: () =>
-                                                MapsLauncher.launchCoordinates(
-                                              double.parse(e.lat),
-                                              double.parse(e.lng),
-                                              e.destination,
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  width: 15.0,
-                                                  height: 15.0,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.transparent,
-                                                    shape: BoxShape.circle,
-                                                    border: Border.all(
-                                                      color: Colors.red[600],
-                                                      width: 3.0,
-                                                    ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                width: 15.0,
+                                                height: 15.0,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.transparent,
+                                                  shape: BoxShape.circle,
+                                                  border: Border.all(
+                                                    color: Colors.red[600],
+                                                    width: 3.0,
                                                   ),
                                                 ),
-                                                SizedBox(width: 10.0),
-                                                Flexible(
-                                                  child: Text(
-                                                    '${e.destination}',
-                                                    style: TextStyle(
-                                                      fontSize: 15.0,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
+                                              ),
+                                              SizedBox(width: 10.0),
+                                              Flexible(
+                                                child: Text(
+                                                  '${e.destination}',
+                                                  style: TextStyle(
+                                                    fontSize: 15.0,
+                                                    fontWeight: FontWeight.w500,
                                                   ),
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                              SizedBox(width: 5.0),
+                                              GestureDetector(
+                                                  onTap: () => MapsLauncher
+                                                          .launchCoordinates(
+                                                        double.parse(e.lat),
+                                                        double.parse(e.lng),
+                                                        e.destination,
+                                                      ),
+                                                  child:
+                                                      Icon(Icons.map_outlined)),
+                                            ],
                                           ),
                                           if (delivery.destinations
                                                   .indexOf(e) !=
