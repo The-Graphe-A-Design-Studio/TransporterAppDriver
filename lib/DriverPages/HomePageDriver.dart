@@ -204,13 +204,13 @@ class _HomePageDriverState extends State<HomePageDriver> {
                                                 child: Text(
                                                   'Post Id : ',
                                                   style:
-                                                      TextStyle(fontSize: 18.0),
+                                                      TextStyle(fontSize: 15.0),
                                                 ),
                                               ),
                                               Text(
                                                 e.postId,
                                                 style: TextStyle(
-                                                  fontSize: 22.0,
+                                                  fontSize: 17.0,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),

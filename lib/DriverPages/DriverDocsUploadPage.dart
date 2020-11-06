@@ -450,44 +450,223 @@ class _DriverDocsUploadPageState extends State<DriverDocsUploadPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff252427),
-      body: Stack(
-        children: <Widget>[
-          getCustomWidget(context),
-          DraggableScrollableSheet(
-            initialChildSize: 0.65,
-            minChildSize: 0.4,
-            maxChildSize: 0.9,
-            builder: (BuildContext context, ScrollController scrollController) {
-              return Hero(
-                tag: 'AnimeBottom',
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black,
-                        blurRadius: 10.0,
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: Text('My Documents'),
+        ),
+        body: ListView(
+          padding: const EdgeInsets.all(15.0),
+          // controller: scrollController,
+          children: [
+            SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    onTap: () => pickImageFromSystem(ImageSource.gallery),
+                    child: Material(
+                      child: TextFormField(
+                        controller: selfieController,
+                        enabled: false,
+                        keyboardType: TextInputType.text,
+                        textCapitalization: TextCapitalization.characters,
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.dialpad),
+                          labelText: "Selfie Image",
+                          disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                        ),
                       ),
-                    ],
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30.0),
-                      topRight: Radius.circular(30.0),
                     ),
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: getDocsBottomSheet(
-                      context,
-                      scrollController,
+                  SizedBox(
+                    height: 16.0,
+                  ),
+                  (imageFile != null)
+                      ? _imagePreview()
+                      : (selfieController.text != null)
+                          ? Stack(
+                              children: [
+                                Container(
+                                  height: 250.0,
+                                  width: double.infinity,
+                                  child: PhotoView(
+                                    maxScale: PhotoViewComputedScale.contained,
+                                    imageProvider: NetworkImage(
+                                        'https://truckwale.co.in/${selfieController.text}'),
+                                    backgroundDecoration:
+                                        BoxDecoration(color: Colors.white),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: Container(
+                                    width: 100.0,
+                                    alignment: Alignment.center,
+                                    padding: const EdgeInsets.all(5.0),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      color: Colors.black,
+                                    ),
+                                    child: Text(
+                                      (widget.docs['selfie verified'] == '1')
+                                          ? 'Verified'
+                                          : 'Not Verified',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          : Container(),
+                  SizedBox(
+                    height: 16.0,
+                  ),
+                  GestureDetector(
+                    onTap: () => pickImageFromSystem1(ImageSource.gallery),
+                    child: Material(
+                      child: TextFormField(
+                        controller: licenseController,
+                        enabled: false,
+                        keyboardType: TextInputType.text,
+                        textCapitalization: TextCapitalization.characters,
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.dialpad),
+                          labelText: "License",
+                          disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                              style: BorderStyle.solid,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-    );
+                  SizedBox(
+                    height: 16.0,
+                  ),
+                  (imageFile1 != null)
+                      ? _imagePreview1()
+                      : (licenseController.text != null)
+                          ? Stack(
+                              children: [
+                                Container(
+                                  height: 250.0,
+                                  width: double.infinity,
+                                  child: PhotoView(
+                                    maxScale: PhotoViewComputedScale.contained,
+                                    imageProvider: NetworkImage(
+                                        'https://truckwale.co.in/${licenseController.text}'),
+                                    backgroundDecoration:
+                                        BoxDecoration(color: Colors.white),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: Container(
+                                    width: 100.0,
+                                    alignment: Alignment.center,
+                                    padding: const EdgeInsets.all(5.0),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      color: Colors.black,
+                                    ),
+                                    child: Text(
+                                      (widget.docs['license verified'] == '1')
+                                          ? 'Verified'
+                                          : 'Not Verified',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          : Container(),
+                  SizedBox(
+                    height: 16.0,
+                  ),
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      onTap: () {
+                        postUpdateRequestSelfie();
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 50.0,
+                        child: Center(
+                          child: Text(
+                            "Update Profile",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                          color: Color(0xff252427),
+                          borderRadius: BorderRadius.circular(10),
+                          border:
+                              Border.all(width: 2.0, color: Color(0xff252427)),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 50.0),
+                ],
+              ),
+            )
+          ],
+        )
+        // Stack(
+        //   children: <Widget>[
+        //     getCustomWidget(context),
+        //     DraggableScrollableSheet(
+        //       initialChildSize: 0.65,
+        //       minChildSize: 0.4,
+        //       maxChildSize: 0.9,
+        //       builder: (BuildContext context, ScrollController scrollController) {
+        //         return Hero(
+        //           tag: 'AnimeBottom',
+        //           child: Container(
+        //             decoration: BoxDecoration(
+        //               color: Colors.white,
+        //               boxShadow: [
+        //                 BoxShadow(
+        //                   color: Colors.black,
+        //                   blurRadius: 10.0,
+        //                 ),
+        //               ],
+        //               borderRadius: BorderRadius.only(
+        //                 topLeft: Radius.circular(30.0),
+        //                 topRight: Radius.circular(30.0),
+        //               ),
+        //             ),
+        //             child: Padding(
+        //               padding: EdgeInsets.all(16.0),
+        //               child: getDocsBottomSheet(
+        //                 context,
+        //                 scrollController,
+        //               ),
+        //             ),
+        //           ),
+        //         );
+        //       },
+        //     ),
+        //   ],
+        // ),
+        );
   }
 }

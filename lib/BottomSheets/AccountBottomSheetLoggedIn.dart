@@ -88,7 +88,7 @@ class _AccountBottomSheetLoggedInState
           SizedBox(height: 12.0),
           Material(
             child: ListTile(
-              onTap: () => Navigator.pushReplacementNamed(
+              onTap: () => Navigator.pushNamed(
                 context,
                 truckDocs,
                 arguments: [
@@ -117,7 +117,7 @@ class _AccountBottomSheetLoggedInState
           ),
           Material(
             child: ListTile(
-              onTap: () => Navigator.pushReplacementNamed(
+              onTap: () => Navigator.pushNamed(
                 context,
                 driverDocsUploadPage,
                 arguments: [
