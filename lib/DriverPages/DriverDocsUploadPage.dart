@@ -36,17 +36,14 @@ class _DriverDocsUploadPageState extends State<DriverDocsUploadPage> {
     setState(() {
       imageFile = ImagePicker.pickImage(
         source: source,
-        imageQuality: 50,
+        imageQuality: 15,
       );
     });
   }
 
   pickImageFromSystem1(ImageSource source) {
     setState(() {
-      imageFile1 = ImagePicker.pickImage(
-        source: source,
-        imageQuality: 50,
-      );
+      imageFile1 = ImagePicker.pickImage(source: source, imageQuality: 15);
     });
   }
 
@@ -54,7 +51,8 @@ class _DriverDocsUploadPageState extends State<DriverDocsUploadPage> {
       ? FutureBuilder<File>(
           future: imageFile,
           builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
-            selfieController.text = snapshot.data.path;
+            if (snapshot.data != null)
+              selfieController.text = snapshot.data.path;
             return Container(
               height: 250.0,
               width: double.infinity,
@@ -75,7 +73,8 @@ class _DriverDocsUploadPageState extends State<DriverDocsUploadPage> {
       ? FutureBuilder<File>(
           future: imageFile1,
           builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
-            licenseController.text = snapshot.data.path;
+            if (snapshot.data != null)
+              licenseController.text = snapshot.data.path;
             return Container(
               height: 250.0,
               width: double.infinity,
@@ -229,9 +228,7 @@ class _DriverDocsUploadPageState extends State<DriverDocsUploadPage> {
                 height: 16.0,
               ),
               GestureDetector(
-                onTap: () => (widget.docs['selfie verified'] == '1')
-                    ? Toast.show('Selfie already verified!', context)
-                    : pickImageFromSystem(ImageSource.gallery),
+                onTap: () => _showModalSheet(context),
                 child: Material(
                   child: TextFormField(
                     controller: selfieController,
@@ -298,9 +295,7 @@ class _DriverDocsUploadPageState extends State<DriverDocsUploadPage> {
                 height: 16.0,
               ),
               GestureDetector(
-                onTap: () => (widget.docs['license verified'] == '1')
-                    ? Toast.show('License Already verifieed', context)
-                    : pickImageFromSystem1(ImageSource.gallery),
+                onTap: () => _showModalSheet1(context),
                 child: Material(
                   child: TextFormField(
                     controller: licenseController,
@@ -450,223 +445,295 @@ class _DriverDocsUploadPageState extends State<DriverDocsUploadPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text('My Documents'),
-        ),
-        body: ListView(
-          padding: const EdgeInsets.all(15.0),
-          // controller: scrollController,
-          children: [
-            SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onTap: () => pickImageFromSystem(ImageSource.gallery),
-                    child: Material(
-                      child: TextFormField(
-                        controller: selfieController,
-                        enabled: false,
-                        keyboardType: TextInputType.text,
-                        textCapitalization: TextCapitalization.characters,
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.dialpad),
-                          labelText: "Selfie Image",
-                          disabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                            ),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text('My Documents'),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(15.0),
+        // controller: scrollController,
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () => _showModalSheet(context),
+                  child: Material(
+                    child: TextFormField(
+                      controller: selfieController,
+                      enabled: false,
+                      keyboardType: TextInputType.text,
+                      textCapitalization: TextCapitalization.characters,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.dialpad),
+                        labelText: "Selfie Image",
+                        disabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                            style: BorderStyle.solid,
                           ),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 16.0,
-                  ),
-                  (imageFile != null)
-                      ? _imagePreview()
-                      : (selfieController.text != null)
-                          ? Stack(
-                              children: [
-                                Container(
-                                  height: 250.0,
-                                  width: double.infinity,
-                                  child: PhotoView(
-                                    maxScale: PhotoViewComputedScale.contained,
-                                    imageProvider: NetworkImage(
-                                        'https://truckwale.co.in/${selfieController.text}'),
-                                    backgroundDecoration:
-                                        BoxDecoration(color: Colors.white),
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                (imageFile != null)
+                    ? _imagePreview()
+                    : (selfieController.text != null)
+                        ? Stack(
+                            children: [
+                              Container(
+                                height: 250.0,
+                                width: double.infinity,
+                                child: PhotoView(
+                                  maxScale: PhotoViewComputedScale.contained,
+                                  imageProvider: NetworkImage(
+                                      'https://truckwale.co.in/${selfieController.text}'),
+                                  backgroundDecoration:
+                                      BoxDecoration(color: Colors.white),
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: Container(
+                                  width: 100.0,
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.all(5.0),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    color: Colors.black,
+                                  ),
+                                  child: Text(
+                                    (widget.docs['selfie verified'] == '1')
+                                        ? 'Verified'
+                                        : 'Not Verified',
+                                    style: TextStyle(color: Colors.white),
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.topRight,
-                                  child: Container(
-                                    width: 100.0,
-                                    alignment: Alignment.center,
-                                    padding: const EdgeInsets.all(5.0),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.rectangle,
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      color: Colors.black,
-                                    ),
-                                    child: Text(
-                                      (widget.docs['selfie verified'] == '1')
-                                          ? 'Verified'
-                                          : 'Not Verified',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            )
-                          : Container(),
-                  SizedBox(
-                    height: 16.0,
-                  ),
-                  GestureDetector(
-                    onTap: () => pickImageFromSystem1(ImageSource.gallery),
-                    child: Material(
-                      child: TextFormField(
-                        controller: licenseController,
-                        enabled: false,
-                        keyboardType: TextInputType.text,
-                        textCapitalization: TextCapitalization.characters,
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.dialpad),
-                          labelText: "License",
-                          disabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            borderSide: BorderSide(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                            ),
+                              )
+                            ],
+                          )
+                        : Container(),
+                SizedBox(
+                  height: 16.0,
+                ),
+                GestureDetector(
+                  onTap: () => _showModalSheet1(context),
+                  child: Material(
+                    child: TextFormField(
+                      controller: licenseController,
+                      enabled: false,
+                      keyboardType: TextInputType.text,
+                      textCapitalization: TextCapitalization.characters,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.dialpad),
+                        labelText: "License",
+                        disabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                            style: BorderStyle.solid,
                           ),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 16.0,
-                  ),
-                  (imageFile1 != null)
-                      ? _imagePreview1()
-                      : (licenseController.text != null)
-                          ? Stack(
-                              children: [
-                                Container(
-                                  height: 250.0,
-                                  width: double.infinity,
-                                  child: PhotoView(
-                                    maxScale: PhotoViewComputedScale.contained,
-                                    imageProvider: NetworkImage(
-                                        'https://truckwale.co.in/${licenseController.text}'),
-                                    backgroundDecoration:
-                                        BoxDecoration(color: Colors.white),
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                (imageFile1 != null)
+                    ? _imagePreview1()
+                    : (licenseController.text != null)
+                        ? Stack(
+                            children: [
+                              Container(
+                                height: 250.0,
+                                width: double.infinity,
+                                child: PhotoView(
+                                  maxScale: PhotoViewComputedScale.contained,
+                                  imageProvider: NetworkImage(
+                                      'https://truckwale.co.in/${licenseController.text}'),
+                                  backgroundDecoration:
+                                      BoxDecoration(color: Colors.white),
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: Container(
+                                  width: 100.0,
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.all(5.0),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    color: Colors.black,
+                                  ),
+                                  child: Text(
+                                    (widget.docs['license verified'] == '1')
+                                        ? 'Verified'
+                                        : 'Not Verified',
+                                    style: TextStyle(color: Colors.white),
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.topRight,
-                                  child: Container(
-                                    width: 100.0,
-                                    alignment: Alignment.center,
-                                    padding: const EdgeInsets.all(5.0),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.rectangle,
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      color: Colors.black,
-                                    ),
-                                    child: Text(
-                                      (widget.docs['license verified'] == '1')
-                                          ? 'Verified'
-                                          : 'Not Verified',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            )
-                          : Container(),
-                  SizedBox(
-                    height: 16.0,
-                  ),
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      splashColor: Colors.transparent,
-                      onTap: () {
-                        postUpdateRequestSelfie();
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 50.0,
-                        child: Center(
-                          child: Text(
-                            "Update Profile",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold),
-                          ),
+                              )
+                            ],
+                          )
+                        : Container(),
+                SizedBox(
+                  height: 16.0,
+                ),
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    splashColor: Colors.transparent,
+                    onTap: () {
+                      postUpdateRequestSelfie();
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 50.0,
+                      child: Center(
+                        child: Text(
+                          "Update Profile",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.bold),
                         ),
-                        decoration: BoxDecoration(
-                          color: Color(0xff252427),
-                          borderRadius: BorderRadius.circular(10),
-                          border:
-                              Border.all(width: 2.0, color: Color(0xff252427)),
-                        ),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Color(0xff252427),
+                        borderRadius: BorderRadius.circular(10),
+                        border:
+                            Border.all(width: 2.0, color: Color(0xff252427)),
                       ),
                     ),
                   ),
-                  SizedBox(height: 50.0),
-                ],
+                ),
+                SizedBox(height: 50.0),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  void _showModalSheet(BuildContext context) => showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          width: double.infinity,
+          height: 150,
+          color: Colors.black87,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              FlatButton(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.camera,
+                      color: Colors.white,
+                    ),
+                    Text(
+                      'Camera',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+                onPressed: () {
+                  pickImageFromSystem(ImageSource.camera);
+                  Navigator.pop(context);
+                },
               ),
-            )
-          ],
-        )
-        // Stack(
-        //   children: <Widget>[
-        //     getCustomWidget(context),
-        //     DraggableScrollableSheet(
-        //       initialChildSize: 0.65,
-        //       minChildSize: 0.4,
-        //       maxChildSize: 0.9,
-        //       builder: (BuildContext context, ScrollController scrollController) {
-        //         return Hero(
-        //           tag: 'AnimeBottom',
-        //           child: Container(
-        //             decoration: BoxDecoration(
-        //               color: Colors.white,
-        //               boxShadow: [
-        //                 BoxShadow(
-        //                   color: Colors.black,
-        //                   blurRadius: 10.0,
-        //                 ),
-        //               ],
-        //               borderRadius: BorderRadius.only(
-        //                 topLeft: Radius.circular(30.0),
-        //                 topRight: Radius.circular(30.0),
-        //               ),
-        //             ),
-        //             child: Padding(
-        //               padding: EdgeInsets.all(16.0),
-        //               child: getDocsBottomSheet(
-        //                 context,
-        //                 scrollController,
-        //               ),
-        //             ),
-        //           ),
-        //         );
-        //       },
-        //     ),
-        //   ],
-        // ),
+              FlatButton(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.folder_open,
+                      color: Colors.white,
+                    ),
+                    Text(
+                      'Gallery',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+                onPressed: () {
+                  pickImageFromSystem(ImageSource.gallery);
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
         );
+      });
+
+  void _showModalSheet1(BuildContext context) {
+    print('actually called');
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            width: double.infinity,
+            height: 150,
+            color: Colors.black87,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                FlatButton(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.camera,
+                        color: Colors.white,
+                      ),
+                      Text(
+                        'Camera',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  onPressed: () {
+                    pickImageFromSystem1(ImageSource.camera);
+                    Navigator.pop(context);
+                  },
+                ),
+                FlatButton(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.folder_open,
+                        color: Colors.white,
+                      ),
+                      Text(
+                        'Gallery',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  onPressed: () {
+                    pickImageFromSystem1(ImageSource.gallery);
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        });
   }
 }

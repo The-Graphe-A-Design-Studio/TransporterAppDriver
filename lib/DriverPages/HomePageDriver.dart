@@ -8,7 +8,6 @@ import 'package:driverapp/HttpHandler.dart';
 import 'package:driverapp/Models/User.dart';
 import 'package:driverapp/BottomSheets/AccountBottomSheetLoggedIn.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:maps_launcher/maps_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -63,14 +62,17 @@ class _HomePageDriverState extends State<HomePageDriver> {
       ]);
     });
 
-    Timer.periodic(const Duration(milliseconds: 100), (_) {
-      getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((value1) {
-        HTTPHandler().updateLocation([
-          '',
-          value1.latitude.toString(),
-          value1.longitude.toString(),
-          driver.id,
-        ]);
+    Future.delayed(Duration(minutes: 2), () {
+      Timer.periodic(const Duration(milliseconds: 150), (_) {
+        getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+            .then((value1) {
+          HTTPHandler().updateLocation([
+            '',
+            value1.latitude.toString(),
+            value1.longitude.toString(),
+            driver.id,
+          ]);
+        });
       });
     });
   }
