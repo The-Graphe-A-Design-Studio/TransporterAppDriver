@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:driverapp/Models/Delivery.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:driverapp/DialogScreens/DialogProcessing.dart';
@@ -11,6 +13,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 class HTTPHandler {
   String baseURLDriver = 'https://truckwale.co.in/api/driver';
+  Timer timer;
+
+  bool first = false;
 
   void signOut(BuildContext context) async {
     DialogProcessing().showCustomDialog(context,
@@ -26,6 +31,43 @@ class HTTPHandler {
         context, driverOptionPage, (route) => false);
   }
 
+  void reloadUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    Timer.periodic(Duration(seconds: 3), (timer) {
+      registerVerifyOtpDriver([
+        prefs.getString('number'),
+        prefs.getString('otp'),
+        true,
+      ]).then((value) {
+        if (value[1]['truck on trip'] != '2') {
+          getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+              .then((value1) {
+            print('simping');
+            HTTPHandler().updateLocation([
+              '',
+              value1.latitude.toString(),
+              value1.longitude.toString(),
+              value[1]['id'],
+            ]);
+          });
+        } else {
+          // timer.cancel();
+          print('pain');
+          getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+              .then((value1) {
+            HTTPHandler().updateLocation([
+              prefs.getString('delivery'),
+              value1.latitude.toString(),
+              value1.longitude.toString(),
+              value[1]['id'],
+            ]);
+          });
+        }
+      });
+    });
+  }
+
   /*-------------------------- Driver API's ---------------------------*/
 
   Future<List> registerVerifyOtpDriver(List data) async {
@@ -34,6 +76,11 @@ class HTTPHandler {
           body: {'phone_number': data[0], 'otp': data[1]});
       var jsonResult = json.decode(result.body);
       if (jsonResult['success'] == '1') {
+        if (!first) {
+          first = true;
+          print('reload successful');
+          reloadUser();
+        }
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setBool('rememberMe', data[2]);
         prefs.setString('userType', driverUser);
@@ -137,6 +184,7 @@ class HTTPHandler {
         'del_trk_id': data[0],
       });
 
+      reloadUser();
       return PostResultOne.fromJson(json.decode(response.body));
     } catch (e) {
       print(e);
@@ -166,6 +214,7 @@ class HTTPHandler {
         'otp': data[2],
       });
 
+      reloadUser();
       return PostResultOne.fromJson(json.decode(response.body));
     } catch (e) {
       print(e);

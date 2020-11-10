@@ -6,11 +6,11 @@ import 'package:driverapp/DialogScreens/DialogSuccess.dart';
 import 'package:driverapp/HttpHandler.dart';
 import 'package:driverapp/Models/Delivery.dart';
 import 'package:driverapp/Models/User.dart';
-import 'package:driverapp/MyConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
@@ -145,30 +145,11 @@ class _DeliveriesPageState extends State<DeliveriesPage> {
 
   getDelivery() {
     print('${widget.args[1]} is it');
-    HTTPHandler().getNewDelivery([widget.args[1]]).then((value) {
+    HTTPHandler().getNewDelivery([widget.args[1]]).then((value) async {
       if (value != null) {
-        getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-            .then((value1) {
-          print(value);
-          HTTPHandler().updateLocation([
-            value.deliveryIdForTruck,
-            value1.latitude.toString(),
-            value1.longitude.toString(),
-            (widget.args[0] as UserDriver).id,
-          ]);
-        });
-        Timer.periodic(const Duration(milliseconds: 300), (_) {
-          getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-              .then((value1) {
-            print(value);
-            HTTPHandler().updateLocation([
-              value.deliveryIdForTruck,
-              value1.latitude.toString(),
-              value1.longitude.toString(),
-              (widget.args[0] as UserDriver).id,
-            ]);
-          });
-        });
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        prefs.setString('delivery', value.deliveryIdForTruck);
       }
       setState(() {
         this.delivery = value;

@@ -43,6 +43,7 @@ class _DriverOptionsPageState extends State<DriverOptionsPage> {
   void saveOTP() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    prefs.setString('number', mobileNumberControllerSignIn.text.toString());
     prefs.setString('otp', _otpCode);
   }
 

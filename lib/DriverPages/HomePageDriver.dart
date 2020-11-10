@@ -53,28 +53,25 @@ class _HomePageDriverState extends State<HomePageDriver> {
     super.initState();
     driver = widget.userDriver;
     getDocs();
-    getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((value1) {
-      HTTPHandler().updateLocation([
-        '',
-        value1.latitude.toString(),
-        value1.longitude.toString(),
-        driver.id,
-      ]);
-    });
+    // getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((value1) {
+    //   HTTPHandler().updateLocation([
+    //     '',
+    //     value1.latitude.toString(),
+    //     value1.longitude.toString(),
+    //     driver.id,
+    //   ]);
+    // });
 
-    Future.delayed(Duration(minutes: 2), () {
-      Timer.periodic(const Duration(milliseconds: 150), (_) {
-        getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-            .then((value1) {
-          HTTPHandler().updateLocation([
-            '',
-            value1.latitude.toString(),
-            value1.longitude.toString(),
-            driver.id,
-          ]);
-        });
-      });
-    });
+    // Timer.periodic(const Duration(seconds: 3), (_) {
+    //   getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((value1) {
+    //     HTTPHandler().updateLocation([
+    //       '',
+    //       value1.latitude.toString(),
+    //       value1.longitude.toString(),
+    //       driver.id,
+    //     ]);
+    //   });
+    // });
   }
 
   void getDocs() async {
@@ -389,26 +386,28 @@ class _HomePageDriverState extends State<HomePageDriver> {
                                                 ],
                                               ),
                                               SizedBox(width: 25.0),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'Material',
-                                                    style: TextStyle(
-                                                      fontSize: 13.0,
-                                                      color: Colors.black54,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 8.0),
-                                                  Text(
-                                                    '${e.material}',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                    ),
-                                                  ),
-                                                ],
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 20.0,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Material',
+                                                style: TextStyle(
+                                                  fontSize: 13.0,
+                                                  color: Colors.black54,
+                                                ),
+                                              ),
+                                              SizedBox(height: 8.0),
+                                              Text(
+                                                '${e.material}',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                ),
                                               ),
                                             ],
                                           ),

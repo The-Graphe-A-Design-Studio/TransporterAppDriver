@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:driverapp/HttpHandler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,6 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
     doSomeAction().then((value) {
       if (value == true) {
         if (userType == driverUser) {
+          HTTPHandler().reloadUser();
           Navigator.pushReplacementNamed(context, homePageDriver,
               arguments: userDriver);
         } else {
