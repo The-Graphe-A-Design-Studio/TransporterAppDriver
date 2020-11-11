@@ -405,31 +405,6 @@ class _TruckDocumentsState extends State<TruckDocuments> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Align(
-                  //   alignment: Alignment.centerLeft,
-                  //   child: Material(
-                  //     color: Colors.transparent,
-                  //     child: InkWell(
-                  //       onTap: () {
-                  //         Navigator.pushReplacementNamed(
-                  //           context,
-                  //           homePageDriver,
-                  //           arguments: widget.userDriver,
-                  //         );
-                  //       },
-                  //       child: CircleAvatar(
-                  //         backgroundColor: Colors.transparent,
-                  //         child: Icon(
-                  //           Icons.arrow_back_ios,
-                  //           color: Color(0xff252427),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  // SizedBox(
-                  //   height: 16.0,
-                  // ),
                   Container(
                     margin: const EdgeInsets.only(left: 50.0, bottom: 20.0),
                     child: RichText(

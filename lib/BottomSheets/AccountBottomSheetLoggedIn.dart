@@ -2,6 +2,7 @@ import 'package:driverapp/Models/User.dart';
 import 'package:flutter/material.dart';
 import 'package:driverapp/HttpHandler.dart';
 import 'package:driverapp/MyConstants.dart';
+import 'package:flutter_android_pip/flutter_android_pip.dart';
 
 class AccountBottomSheetLoggedIn extends StatefulWidget {
   final ScrollController scrollController;
@@ -86,6 +87,26 @@ class _AccountBottomSheetLoggedInState
         controller: widget.scrollController,
         children: <Widget>[
           SizedBox(height: 12.0),
+          Material(
+            child: ListTile(
+              onTap: () {
+                Navigator.pushReplacementNamed(context, homePageDriver,
+                    arguments: widget.userDriver);
+                FlutterAndroidPip.enterPictureInPictureMode;
+              },
+              leading: Icon(
+                Icons.picture_in_picture,
+                color: Colors.white,
+              ),
+              title: Text(
+                'Start picture in picture',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
           Material(
             child: ListTile(
               onTap: () => Navigator.pushNamed(

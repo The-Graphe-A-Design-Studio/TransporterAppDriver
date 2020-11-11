@@ -28,6 +28,7 @@ dependencies:
   pull_to_refresh: ^1.6.2
   sms_otp_auto_verify: ^1.2.2
   location: ^3.0.0
+  flutter_android_pip: ^0.0.2
 
 dev_dependencies:
   flutter_test:

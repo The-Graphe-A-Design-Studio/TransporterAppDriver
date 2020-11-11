@@ -20,7 +20,6 @@ class StartApp extends StatefulWidget {
 class _StartAppState extends State<StartApp> {
   @override
   Widget build(BuildContext context) {
-    SmsRetrieved.getAppSignature().then((value) => print('Sign : $value'));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Transportation App',
