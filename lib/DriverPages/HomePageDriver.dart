@@ -20,13 +20,29 @@ class HomePageDriver extends StatefulWidget {
   _HomePageDriverState createState() => _HomePageDriverState();
 }
 
-class _HomePageDriverState extends State<HomePageDriver> {
+class _HomePageDriverState extends State<HomePageDriver>
+    with WidgetsBindingObserver {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   Map docs;
   List<Delivery> dels;
   bool showMore = false;
   UserDriver driver;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    print('some nice state ${state.index}');
+
+    setState(() {});
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.paused) {
+      setState(() {
+        FlutterAndroidPip.enterPictureInPictureMode;
+      });
+    }
+  }
 
   void _onRefresh(BuildContext context) async {
     print('working properly');
@@ -51,8 +67,15 @@ class _HomePageDriverState extends State<HomePageDriver> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     driver = widget.userDriver;
     getDocs();
+  }
+
+  @override
+  void dispose() {
+    // WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   void getDocs() async {
