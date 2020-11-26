@@ -29,20 +29,20 @@ class _HomePageDriverState extends State<HomePageDriver>
   bool showMore = false;
   UserDriver driver;
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   super.didChangeAppLifecycleState(state);
 
-    print('some nice state ${state.index}');
+  //   print('some nice state ${state.index}');
 
-    setState(() {});
-    if (state == AppLifecycleState.inactive ||
-        state == AppLifecycleState.paused) {
-      setState(() {
-        FlutterAndroidPip.enterPictureInPictureMode;
-      });
-    }
-  }
+  //   setState(() {});
+  //   if (state == AppLifecycleState.inactive ||
+  //       state == AppLifecycleState.paused) {
+  //     setState(() {
+  //       FlutterAndroidPip.enterPictureInPictureMode;
+  //     });
+  //   }
+  // }
 
   void _onRefresh(BuildContext context) async {
     print('working properly');
