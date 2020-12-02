@@ -20,29 +20,13 @@ class HomePageDriver extends StatefulWidget {
   _HomePageDriverState createState() => _HomePageDriverState();
 }
 
-class _HomePageDriverState extends State<HomePageDriver>
-    with WidgetsBindingObserver {
+class _HomePageDriverState extends State<HomePageDriver> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   Map docs;
   List<Delivery> dels;
   bool showMore = false;
   UserDriver driver;
-
-  // @override
-  // void didChangeAppLifecycleState(AppLifecycleState state) {
-  //   super.didChangeAppLifecycleState(state);
-
-  //   print('some nice state ${state.index}');
-
-  //   setState(() {});
-  //   if (state == AppLifecycleState.inactive ||
-  //       state == AppLifecycleState.paused) {
-  //     setState(() {
-  //       FlutterAndroidPip.enterPictureInPictureMode;
-  //     });
-  //   }
-  // }
 
   void _onRefresh(BuildContext context) async {
     print('working properly');
@@ -67,15 +51,8 @@ class _HomePageDriverState extends State<HomePageDriver>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     driver = widget.userDriver;
     getDocs();
-  }
-
-  @override
-  void dispose() {
-    // WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
   }
 
   void getDocs() async {
@@ -97,7 +74,7 @@ class _HomePageDriverState extends State<HomePageDriver>
         return Future.value(false);
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: true,
+        // resizeToAvoidBottomInset: true,
         backgroundColor: Theme.of(context).primaryColor,
         body: (MediaQuery.of(context).size.height > 200.0)
             ? Stack(
@@ -872,30 +849,30 @@ class _HomePageDriverState extends State<HomePageDriver>
                             ),
                     ),
                   ),
-                  DraggableScrollableSheet(
-                    initialChildSize: 0.08,
-                    minChildSize: 0.08,
-                    maxChildSize: 0.9,
-                    builder: (BuildContext context,
-                        ScrollController scrollController) {
-                      return Hero(
-                        tag: 'AnimeBottom',
-                        child: Container(
-                            margin: EdgeInsets.only(bottom: 0),
-                            decoration: BoxDecoration(
-                              color: Colors.black87,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(30.0),
-                                  topRight: Radius.circular(30.0)),
-                            ),
-                            child: AccountBottomSheetLoggedIn(
-                              scrollController: scrollController,
-                              userDriver: driver,
-                              data: docs,
-                            )),
-                      );
-                    },
-                  ),
+                  // DraggableScrollableSheet(
+                  //   initialChildSize: 0.08,
+                  //   minChildSize: 0.08,
+                  //   maxChildSize: 0.9,
+                  //   builder: (BuildContext context,
+                  //       ScrollController scrollController) {
+                  //     return Hero(
+                  //       tag: 'AnimeBottom',
+                  //       child: Container(
+                  //           margin: EdgeInsets.only(bottom: 0),
+                  //           decoration: BoxDecoration(
+                  //             color: Colors.black87,
+                  //             borderRadius: BorderRadius.only(
+                  //                 topLeft: Radius.circular(30.0),
+                  //                 topRight: Radius.circular(30.0)),
+                  //           ),
+                  //           child: AccountBottomSheetLoggedIn(
+                  //             scrollController: scrollController,
+                  //             userDriver: driver,
+                  //             data: docs,
+                  //           )),
+                  //     );
+                  //   },
+                  // ),
                 ],
               )
             : Stack(
@@ -920,6 +897,116 @@ class _HomePageDriverState extends State<HomePageDriver>
                   ),
                 ],
               ),
+        bottomNavigationBar: (MediaQuery.of(context).size.height > 200.0)
+            ? Container(
+                width: MediaQuery.of(context).size.width,
+                height: 60.0,
+                color: Colors.black87,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () => FlutterAndroidPip.enterPictureInPictureMode,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.picture_in_picture,
+                            color: Colors.white,
+                            size: 25.0,
+                          ),
+                          Text(
+                            'PIP',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        truckDocs,
+                        arguments: [
+                          widget.userDriver,
+                          docs,
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.pages,
+                            color: Colors.white,
+                            size: 25.0,
+                          ),
+                          Text(
+                            'Truck Docs',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        driverDocsUploadPage,
+                        arguments: [
+                          widget.userDriver,
+                          docs,
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.pages,
+                            color: Colors.white,
+                            size: 25.0,
+                          ),
+                          Text(
+                            'My Docs',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => HTTPHandler().signOut(context),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.logout,
+                            color: Colors.white,
+                            size: 25.0,
+                          ),
+                          Text(
+                            'Log Out',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : SizedBox(),
       ),
     );
   }
