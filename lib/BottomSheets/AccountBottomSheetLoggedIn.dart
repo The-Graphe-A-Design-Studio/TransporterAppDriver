@@ -2,7 +2,7 @@ import 'package:driverapp/Models/User.dart';
 import 'package:flutter/material.dart';
 import 'package:driverapp/HttpHandler.dart';
 import 'package:driverapp/MyConstants.dart';
-import 'package:flutter_android_pip/flutter_android_pip.dart';
+import 'package:flutter_ajanuw_android_pip/flutter_ajanuw_android_pip.dart';
 
 class AccountBottomSheetLoggedIn extends StatefulWidget {
   final ScrollController scrollController;
@@ -92,7 +92,7 @@ class _AccountBottomSheetLoggedInState
               onTap: () {
                 Navigator.pushReplacementNamed(context, homePageDriver,
                     arguments: widget.userDriver);
-                FlutterAndroidPip.enterPictureInPictureMode;
+                FlutterAndroidPip.pip();
               },
               leading: Icon(
                 Icons.picture_in_picture,

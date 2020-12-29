@@ -139,13 +139,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_android_pip:
+  flutter_ajanuw_android_pip:
     dependency: "direct main"
     description:
-      name: flutter_android_pip
+      name: flutter_ajanuw_android_pip
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.2"
+    version: "0.1.2"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -534,4 +534,4 @@ packages:
     version: "2.2.1"
 sdks:
   dart: ">=2.12.0-0.0 <3.0.0"
-  flutter: ">=1.17.0 <2.0.0"
+  flutter: ">=1.20.0 <2.0.0"
